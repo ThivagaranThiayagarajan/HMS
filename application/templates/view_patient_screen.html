@@ -1,0 +1,24 @@
+
+
+
+<table style="width:100%">
+    <tr style="text-align: center;">
+      <th>Patient SSN ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Address</th>
+      <th>DOJ</th>
+      <th>Type of Room</th>
+    </tr>
+    {% for member in patient %}
+    <tr style="text-align: center;">
+      <td>{{member.patient_id}}</td>
+      <td>{{member.patient_name}}</td>
+      <td>{{member.patient_age}}</td>
+      <td>{{member.address}}</td>
+      <td>{{member.date}}</td>
+      <td>{{member.type_of_bed}}</td>
+      
+    </tr>
+    {% endfor %}
+  </table>
