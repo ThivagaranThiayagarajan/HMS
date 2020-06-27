@@ -7,4 +7,5 @@ from datetime import datetime
 @app.route("/")
 @app.route("/login", methods=['POST'])
 def login():
+    print("checking...")
     return render_template("login.html")
