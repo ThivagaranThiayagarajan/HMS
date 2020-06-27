@@ -16,18 +16,23 @@
  
   
 <div class="user_pass">
-  <div class="textbox">
-    <i class="fas fa-user"></i>
-    <input type="text" placeholder="Username">
-  </div>
+  <form action="login" method="POST">
+    
+    <div class="textbox">
+      <i class="fas fa-user"></i>
+      
+      <input type="text" placeholder="Username" name="email">
+    </div>
 
-  <div class="textbox">
-    <i class="fas fa-lock"></i>
-    <input type="password" placeholder="Password">
-  </div>
+    <div class="textbox">
+      <i class="fas fa-lock"></i>
+     
+      <input type="password" placeholder="Password" name="password">
+    </div>
 
-  <input type="button" class="btn" value="Sign in">
-
+    <input type="submit" class="btn" value="Sign in">
+    
+  </form>
 </div>
 
 </div>

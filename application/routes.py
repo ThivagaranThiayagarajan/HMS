@@ -1,27 +1,13 @@
 from application import app
 from flask import render_template,request, json, Response, redirect, flash, url_for, session, jsonify
-import random
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float
-import os
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from flask_mail import Mail, Message
 from datetime import date
-
-
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir, 'hms.db')
-app.config['JWT_SECRET_KEY'] = 'super-secret'
-app.config['MAIL_SERVER']='smtp.mailtrap.io'
-app.config['MAIL_PORT'] = 2525
-app.config['MAIL_USERNAME'] = 'd1d7896e04afbd'
-app.config['MAIL_PASSWORD'] = '1db62f0e68b6a1'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-
+import random
 
 
 db = SQLAlchemy(app)
@@ -84,7 +70,7 @@ def db_seed():
 
 @app.route('/')
 def hello_world():
-    return render_template("home.html")
+    return render_template("login.html")
 
 
 
@@ -124,7 +110,8 @@ def login():
     test = User.query.filter_by(email=email, password=password).first()
     if test:
         access_token = create_access_token(identity=email)
-        return jsonify(message="Login succeeded!", access_token=access_token)
+        # jsonify(message="Login succeeded!", access_token=access_token)
+        return render_template("home.html")
     else:
         return jsonify(message="Bad email or password"), 401
 
