@@ -1,53 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Responsive Navbar</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/pages.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  
-    <nav>
-      <input type="checkbox" id="check">
-      <label for="check" class="checkbtn">
-        <i class="fas fa-bars"></i>
-      </label>
-      <img class="image" src="static/images/HMS-logo2.png">
-      <label class="logo">Get Well Hospitals</label>
-      <ul>
-        <a href="#"><li><i class="fa fa-home" ></i>Home</a></li>
-        <a><li>Patients<i class="fa fa-sort-desc" aria-hidden="true"></i>
-          <ul>
-            <a href="#"><li>New Patient</li></a>
-            <a href="#"><li>Edit Patient</li></a>
-            <a href="#"><li>View Patient</li></a>
-            <a href="#"><li>Delete Patient</li></a>
-            <a href="#"><li>Bill Details</li></a>
-          </ul>
-        </li></a>
-        <a><li>Diagnostics<i class="fa fa-sort-desc" aria-hidden="true"></i></a>
-          <ul>
-            <a href="#"><li>Issue Diadnostics</li></a>
-            <a href="#"><li>Diagnostics List</li></a>
-            <a href="#"><li>Diagnostics Bill</li></a>
-            <a href="#"><li>Edit Diagnostics List</li></a>
-          </ul>
-        </li></a>
-        <a><li>Pharmacy<i class="fa fa-sort-desc" aria-hidden="true"></i>
-          <ul>
-            <a href="#"><li>Issue Medicine</li></a>
-            <a href="#"><li>Medicine List</li></a>
-            <a href="#"><li>Medicine Bill</li></a>
-            <a href="#"><li>Edit Medicine List</li></a>
-          </ul>
-        </li></a>
-        <a href="/logout"><li><i class="fas fa-sign-out-alt"></i>Logout</a></li>
-      </ul>
-    </nav>
-  </head>
-    
-<body>
-  <section></section>
-</body>
-</html>
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+<h1 style="text-align: center;">Welcome !!!</h1>
+
+{% endblock %}
