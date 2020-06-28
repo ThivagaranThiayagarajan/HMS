@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <title>Diagnostics Patient Details</title>
+        <br/>
+        <center><h2>GetWell Hospital</h2></center>
+        <center>We care for your Wellness!!!</center>
+        <br/>
+        <center>
+          <select name="Patient" id="patient">
+            <option value="patient">--Patient--</option>
+            <option value="create_patient">Create Patient</option>
+            <option value="update_patient">Update patient</option>
+            <option value="delete_patient">Delete patient</option>
+            <option value="view_patient">View patient</option>
+          </select>
+
+          <select name="Pharmacy" id="pharmacy">
+            <option value="pharmacy">--Pharmacy--</option>
+            <option value="issue_medicines">Issue Medicines</option>
+            <option value="final_billing">Final Billing</option>
+          </select>
+
+          <select name="Diagnostics" id="diagnostics">
+            <option value="diagnostics">--Diagnostics--</option>
+            <option value="add_diagnostics">Add Diagnostics</option>
+          </select>
+          </center>
+        
+        <br/>
+        <br/>
+        <hr/>
+
+    </head>
+
+    <body>
+<div>
+<div>
+<h3 style="text-align: center;">DIAGNOSTICS</h3>
+
+<table style="width:100%">
+    <tr style="text-align: center;">
+      <th>Patient SSN ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Address</th>
+      <th>DOJ</th>
+      <th>Type of Room</th>
+    </tr>
+    <tr style="text-align: center;">
+      <td>{{patient.patient_id}}</td>
+      <td>{{patient.patient_name}}</td>
+      <td>{{patient.patient_age}}</td>
+      <td>{{patient.address}}</td>
+      <td>{{patient.date}}</td>
+      <td>{{patient.type_of_bed}}</td>
+      
+    </tr>
+  </table>
+</div>
+</div>
+
+<br><br><br>
+
+<center><button type="submit">Get Details</button></center>
+
+<br><br><br>
+
+<div>
+    <div>
+    <h3 style="text-align: center;">DIAGNOSTICS CONDUCTED</h3>
+    
+    <table style="width:100%">
+      <tr style="text-align: center;">
+        <th>Name of the Test</th>
+        <th>Amount</th>
+      </tr>
+
+      {% for dia in diagnostic_list %}
+        {% for dp in diagnostic_for_patient %}
+          {% if dia.diagnostic_id == dp.diagnostic_id %}
+
+              <tr style="text-align: center;">
+                <td>{{dia.name_of_the_test}}</td>
+                <td>{{dia.amount}}</td>
+                
+              </tr>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </table>
+    </div>
+    </div>
+    <br><br><br>
+
+    <div style="text-align: center;">
+    <form action="get_diagnostic_count" method="POST">
+      Patient ID: <input type="text" name="patient_id" value={{patient.patient_id}}>
+      Count: <input type="text" name="count"><br><br>
+    <button type="submit">Add Diagnostics</button>
+  </div>
+    </body>
