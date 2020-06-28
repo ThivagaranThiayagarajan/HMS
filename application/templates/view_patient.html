@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>View Patient</title>
+        <br/>
+        <center><h2>GetWell Hospital</h2></center>
+        <center>We care for your Wellness!!!</center>
+        <br/>
+        <center>
+          <select name="Patient" id="patient">
+            <option value="patient">--Patient--</option>
+            <option value="create_patient">Create Patient</option>
+            <option value="update_patient">Update patient</option>
+            <option value="delete_patient">Delete patient</option>
+            <option value="view_patient">View patient</option>
+          </select>
+
+          <select name="Pharmacy" id="pharmacy">
+            <option value="pharmacy">--Pharmacy--</option>
+            <option value="issue_medicines">Issue Medicines</option>
+            <option value="final_billing">Final Billing</option>
+          </select>
+
+          <select name="Diagnostics" id="diagnostics">
+            <option value="diagnostics">--Diagnostics--</option>
+            <option value="add_diagnostics">Add Diagnostics</option>
+          </select>
+          </center>
+        
+        <br/>
+        <br/>
+        <hr/>
+
+    </head>
+
+    <body>
+        <center><h3>View Patients</h3></center>
+        <br>
+        
+<table style="width:100%">
+    <tr style="text-align: center;">
+      <th>Patient SSN ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Address</th>
+      <th>DOJ</th>
+      <th>Type of Room</th>
+    </tr>
+    
+    <tr style="text-align: center;">
+      <td>{{member.patient_id}}</td>
+      <td>{{member.patient_name}}</td>
+      <td>{{member.patient_age}}</td>
+      <td>{{member.address}}</td>
+      <td>{{member.date}}</td>
+      <td>{{member.type_of_bed}}</td>
+      
+    </tr>
+    
+    </table>
+    </body>
