@@ -69,7 +69,8 @@ def db_seed():
 
 
 @app.route('/')
-def hello_world():
+@app.route('/login')
+def login():
     return render_template("login.html")
 
 
@@ -98,8 +99,8 @@ def register():
         return jsonify(message="User created successfully."), 201
 
 
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/logincheck', methods=['POST'])
+def logincheck():
     if request.is_json:
         email = request.json['email']
         password = request.json['password']
@@ -111,10 +112,13 @@ def login():
     if test:
         access_token = create_access_token(identity=email)
         # jsonify(message="Login succeeded!", access_token=access_token)
-        return render_template("home.html")
+        return render_template("index.html")
     else:
         return jsonify(message="Bad email or password"), 401
 
+@app.route('/logout')
+def logout():
+    return redirect(url_for("login"))
 
 @app.route('/retrieve_password/<string:email>', methods=['GET'])
 def retrieve_password(email: str):
@@ -224,7 +228,6 @@ def pharmacist_search_patient():
         return render_template("pharmacist_search_patient.html", patient=patient, medicine_issued_for_patient=medicine_issued_for_patient, rate=rate, medicine_name=medicine_name)
     else:
         return jsonify(message="The patient does not exist"), 404
-
 
 
 
