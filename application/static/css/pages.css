@@ -223,4 +223,15 @@
     height:auto;
     float: left;
   }
+
+  footer{
+    position:fixed;
+    bottom:0;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    color: white;
+    background-color: #310d2f;
+    padding-bottom:10px;
+    width:100%;
+  }
   
