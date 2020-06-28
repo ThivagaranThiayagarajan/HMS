@@ -1,0 +1,18 @@
+<div>
+    <h1>ISSUE MEDICINE SCREEN</h1>
+<div>
+    <form action="issue_medicine" method="POST">
+        Patient ID: <input type="text" name="patient_id" value={{patient_id}}>
+        Count: <input type="text" name="count" value={{count}}>
+        {% for num in range(count) %}
+        Medicine Name {{num+1}}: <input type="text" name="medicine_name{{num}}">
+        <br>
+        Quantity {{num+1}}: <input type="text" name="quantity{{num}}">
+        <br>
+        <br>
+        {% endfor %}
+        
+        <button type="submit">Issue medicine</button>
+    </form>
+</div>
+</div>

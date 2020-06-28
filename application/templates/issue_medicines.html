@@ -33,28 +33,34 @@
     </head>
 
     <body>
+      <div>
         <div>
-            <div>
-            <h3 style="text-align: center;">Issue Medicines</h3>
-            
-            <table style="width:100%">
-                <tr style="text-align: center;">
-                  <th>Medicine Name</th>
-                  <th>Quanity</th>
-                  <th>Rate</th>
-                  <th>Amount</th>
-                </tr>
-                <tr style="text-align: center;">
-                    <td>{{medicine_name}}</td>
-                    <td>{{medicine_issued_for_patient.quantity_issued}}</td>
-                    <td>{{rate}}</td>
-                    <td>{{medicine_issued_for_patient.quantity_issued*rate}}</td>
-                  <td><button type="submit">Add</button></td>
-                  
-                </tr>
-              </table>
-            </div>
-            </div>
+        <h1 style="text-align: center;">MEDICINES ISSUED</h1>
+        
+        <table style="width:100%">
+            <tr style="text-align: center;">
+              <th>Medicine Name</th>
+              <th>Quantity</th>
+              <th>Rate</th>
+              <th>Amount</th>
+            </tr>
+    
+                
+            {% for i in range(medicine_name_list|count) %}
+                {% for med in medicines %}
+                    {% if med.medicine_name==medicine_name_list[i] and med.quantity_available>=quantity_list[i] %}
+                        <tr style="text-align: center;">
+                            <td>{{i}}:{{medicine_name_list[i]}}</td>
+                            <td>{{quantity_list[i]}}</td>
+                            <td>{{med.rate}}</td>
+                            <td>{{quantity_list[i]*med.rate}}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+          </table>
+        </div>
+        </div>
             <br><br><br>
             <center><button type="submit">Update</button></center>
     </body>

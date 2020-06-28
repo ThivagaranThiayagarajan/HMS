@@ -38,13 +38,19 @@
           <th>Amount</th>
         </tr>
 
-        <tr style="text-align: center;">
-          <td>{{medicine_name}}</td>
-          <td>{{medicine_issued_for_patient.quantity_issued}}</td>
-          <td>{{rate}}</td>
-          <td>{{medicine_issued_for_patient.quantity_issued*rate}}</td>
-          
-        </tr>
+        {% for med in medicine_list %}
+          {% for mp in medicine_issued_for_patient %}
+            {% if med.medicine_id == mp.medicine_id %}
+
+                <tr style="text-align: center;">
+                  <td>{{med.medicine_name}}</td>
+                  <td>{{mp.quantity_issued}}</td>
+                  <td>{{med.rate}}</td>
+                  <td>{{mp.quantity_issued*med.rate}}</td>
+                </tr>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
       </table>
     </div>
     </div>

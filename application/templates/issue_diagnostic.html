@@ -37,19 +37,28 @@
             <div>
             <h3 style="text-align: center;">Issue Diagnostics</h3>
             
-            <table style="width:100%">
-                <tr style="text-align: center;">
-                  <th>Name of the test</th>
-                  <th>Amount</th>
-                </tr>
+            {% if (test_to_be_conducted|count)!=0 %}
+    <table style="width:100%">
+        <tr style="text-align: center;">
+          <th>Name of the Test</th>
+          <th>Amount</th>
+        </tr>
+
+            
         
-                <tr style="text-align: center;">
-                  <td>{{test_name}}</td>
-                  <td>{{rate}}</td>
-                  <td><button type="submit">Add</button></td>
-                  
-                </tr>
-              </table>
+            {% for dia in diagnostics %}
+                {% if dia.name_of_the_test in test_to_be_conducted %}
+                    <tr style="text-align: center;">
+                        <td>{{dia.name_of_the_test}}</td>
+                        <td>{{dia.amount}}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+        <h1>Diagnostic is not pending</h1>
+        {% endif %}
+        
+      </table>
             </div>
             </div>
             <br><br><br>
