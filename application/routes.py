@@ -75,7 +75,6 @@ def login():
 
 
 
-
 @app.route('/patients', methods=['GET'])
 def patients():
     patients_list = Patient.query.all()
@@ -116,9 +115,11 @@ def logincheck():
     else:
         return jsonify(message="Bad email or password"), 401
 
+
 @app.route('/logout')
 def logout():
     return redirect(url_for("login"))
+
 
 @app.route('/retrieve_password/<string:email>', methods=['GET'])
 def retrieve_password(email: str):
