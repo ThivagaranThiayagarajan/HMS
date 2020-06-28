@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <title>Pharmacy Patient Details</title>
+        <br/>
+        <center><h2>GetWell Hospital</h2></center>
+        <center>We care for your Wellness!!!</center>
+        <br/>
+        <center>
+          <select name="Patient" id="patient">
+            <option value="patient">--Patient--</option>
+            <option value="create_patient">Create Patient</option>
+            <option value="update_patient">Update patient</option>
+            <option value="delete_patient">Delete patient</option>
+            <option value="view_patient">View patient</option>
+          </select>
+
+          <select name="Pharmacy" id="pharmacy">
+            <option value="pharmacy">--Pharmacy--</option>
+            <option value="issue_medicines">Issue Medicines</option>
+            <option value="final_billing">Final Billing</option>
+          </select>
+
+          <select name="Diagnostics" id="diagnostics">
+            <option value="diagnostics">--Diagnostics--</option>
+            <option value="add_diagnostics">Add Diagnostics</option>
+          </select>
+          </center>
+        
+        <br/>
+        <br/>
+        <hr/>
+
+    </head>
+
+    <body>
+<div>
+<div>
+<h3 style="text-align: center;">PHARMACY</h3>
+
+<table style="width:100%">
+    <tr style="text-align: center;">
+      <th>Patient SSN ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Address</th>
+      <th>DOJ</th>
+      <th>Type of Room</th>
+    </tr>
+    <tr style="text-align: center;">
+      <td>{{patient.patient_id}}</td>
+      <td>{{patient.patient_name}}</td>
+      <td>{{patient.patient_age}}</td>
+      <td>{{patient.address}}</td>
+      <td>{{patient.date}}</td>
+      <td>{{patient.type_of_bed}}</td>
+      
+    </tr>
+  </table>
+</div>
+</div>
+
+<br><br><br>
+
+<center><button type="submit">Get Details</button></center>
+
+<br><br><br>
+
+<div>
+    <div>
+    <h3 style="text-align: center;">MEDICINES ISSUED</h3>
+    
+    <table style="width:100%">
+        <tr style="text-align: center;">
+          <th>Medicine Name</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Amount</th>
+        </tr>
+
+        <tr style="text-align: center;">
+          <td>{{medicine_name}}</td>
+          <td>{{medicine_issued_for_patient.quantity_issued}}</td>
+          <td>{{rate}}</td>
+          <td>{{medicine_issued_for_patient.quantity_issued*rate}}</td>
+          
+        </tr>
+      </table>
+    </div>
+    </div>
+    <br><br><br>
+
+    <center><button type="submit">Issue medicines</button></center>
+    </body>
