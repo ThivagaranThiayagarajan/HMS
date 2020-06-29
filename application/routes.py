@@ -185,7 +185,7 @@ def add_patient():
         patient_id = int(request.form['patient_id'])
         patient_age = int(request.form['patient_age'])
         date = str(request.form['date'])
-        type_of_bed = request.form['type_of_bed']
+        type_of_bed = str(request.form['type_of_bed'])
         address = request.form['address']
         state = request.form['state']
         city = request.form['city']
