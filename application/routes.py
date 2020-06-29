@@ -238,6 +238,8 @@ def delete_patient2():
     else:
         return jsonify(message="The patient does not exist"), 404
 
+
+
 @app.route('/view_patient_screen')
 def view_patient_screen():
     patient =  Patient.query.all()
