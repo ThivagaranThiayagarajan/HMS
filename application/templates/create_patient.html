@@ -1,24 +1,28 @@
+{% extends "layout.html" %}
 {% block content %}
-        <center><h4>Patient Registration</h4></center>
+        <center><h1>Patient Registration</h1>
         <br>
         <div>
-            <form action="add_patient" method="POST">
+            <form action="add_patient" method="POST"></center>
+              <div class="background">
                 <center>
-                <table>
-                <tr><th>Patient SSN ID *:</th> <th><input type="text" name="patient_id"></th></tr>
-                <tr><th>Patient Name *:</th> <th><input type="text" name="patient_name"></th></tr>
-                <tr><th>Patient Age *:</th> <th><input type="text" name="patient_age"></th></tr>
-                <tr><th>Date of Admission *:</th> <th><input type="date" name="date"></th></tr>
-                <tr><th>Type of Bed *:</th> <th><input type="text" name="type_of_bed"></th></tr>
-                <tr><th>Address *:</th> <th><input type="text" name="address"></th></tr>
-                <tr><th>State *:</th> <th><input type="text" name="state"></th></tr>
-                <tr><th>City *:</th> <th><input type="text" name="city"></th></tr>
-                </table>
-                <h5>* Mandatory</h5>
-                <button type="submit">Create Patient Account</button>
-                <button type="submit">Reset</button>
+                  <table>
+                  <tr><th>Patient SSN ID*</th> <th>: <input type="text" name="patient_id"></th></tr>
+                  <tr><th>Patient Name*</th> <th>: <input type="text" name="patient_name"></th></tr>
+                  <tr><th>Patient Age*</th> <th>:  <input type="text" name="patient_age"></th></tr>
+                  <tr><th>Date of Admission*</th> <th>:  <input type="date" name="date"></th></tr>
+                  <tr><th>Type of Bed*</th> <th>:  <input type="text" name="type_of_bed"></th></tr>
+                  <tr><th>Address*</th> <th>:  <input type="text" name="address"></th></tr>
+                  <tr><th>State*</th> <th>:  <input type="text" name="state"></th></tr>
+                  <tr><th>City*</th> <th>: <input type="text" name="city"></th></tr>
+                  </table>
+                  <h5>*Required</h5>
+                  <button type="submit">Create Patient Account</button>
+                </form>
+                  <form action="create_patient"><button type="submit">Reset</button></form>
                 </center>
-
-            </form>
+              </div>
+            
         </div>
+      
 {% endblock %}  

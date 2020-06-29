@@ -1,9 +1,18 @@
-<div>
-    <h1>SEARCH PATIENT</h1>
-<div>
-    <form action="patient_bill" method="POST">
-        Patient SSN ID: <input type="text" name="patient_id">
-        <button type="submit">Search Patient Account</button>
-    </form>
-</div>
-</div>
+{% extends "layout.html" %}
+{% block content %}
+        <center><h1>Patient Bill Search</h1></center>
+        <br>
+        <div  class="background_regpat">
+            <form action="patient_bill" method="POST">
+                <center>
+                <table>
+                <tr><th>Patient SSN ID*</th> <th>: <input type="text" name="patient_id"></th>
+                
+                </table>
+                <h5>*Required</h5>
+                <button type="submit">Search</button>
+                </center>
+
+            </form>
+        </div>
+{% endblock %} 

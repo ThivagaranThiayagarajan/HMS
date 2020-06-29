@@ -97,7 +97,9 @@ def db_seed():
 def login():
     return render_template("login.html")
 
-
+@app.route('/home')
+def home():
+    return render_template("index.html")
 
 @app.route('/patients', methods=['GET'])
 def patients():
@@ -245,6 +247,8 @@ def delete_patient2():
         return jsonify(message="You deleted the patient successfully!!"), 202
     else:
         return jsonify(message="The patient does not exist"), 404
+
+
 
 @app.route('/view_patient_screen')
 def view_patient_screen():
