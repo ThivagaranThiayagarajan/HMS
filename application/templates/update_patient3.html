@@ -36,20 +36,21 @@
         <center><h4>Patient Registration</h4></center>
         <br>
         <div>
-            <form action="update_patient2" method="POST">
+            <form action="update_patient3" method="POST">
                 <center>
                 <table>
-                <tr><th>Patient SSN ID *:</th> <th><input type="text" name="patient_id"></th>
-                <th><button type="submit">Get</button></th></tr>
-                <tr><th>Patient Name:</th> <th><input type="text" name="patient_name"></th></tr>
-                <tr><th>Patient Age:</th> <th><input type="text" name="patient_age"></th></tr>
-                <tr><th>Date of Admission:</th> <th><input type="date" name="date"></th></tr>
-                <tr><th>Type of Bed:</th> <th><input type="text" name="type_of_bed"></th></tr>
-                <tr><th>Address:</th> <th><input type="text" name="address"></th></tr></th></tr>
-                <tr><th>State:</th> <th><input type="text" name="state"></th></tr>
-                <tr><th>City:</th> <th><input type="text" name="city"></th></tr>
+                <tr><th>Patient SSN ID *:</th> <th><input type="text" name="patient_id" value={{patient.patient_id}}></th>
+                <tr><th>Patient Name:</th> <th><input type="text" name="patient_name" value={{patient.patient_name}}></th></tr>
+                <tr><th>Patient Age:</th> <th><input type="text" name="patient_age" value={{patient.patient_age}}></th></tr>
+                <tr><th>Date of Admission:</th> <th><input type="date" name="date" value={{patient.date}}></th></tr>
+                <tr><th>Type of Bed:</th> <th><input type="text" name="type_of_bed" value={{patient.type_of_bed}}></th></tr>
+                <tr><th>Address:</th> <th><input type="text" name="address" value={{patient.address}}></th></tr></th></tr>
+                <tr><th>State:</th> <th><input type="text" name="state" value={{patient.state}}></th></tr>
+                <tr><th>City:</th> <th><input type="text" name="city" value={{patient.city}}></th></tr>
                 </table>
                 <h5>* Mandatory</h5>
+               
+                <button type="submit">Update</button>
                 </center>
 
             </form>

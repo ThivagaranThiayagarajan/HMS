@@ -208,6 +208,15 @@ def update_patient2():
     patient_id = int(request.form['patient_id'])
     patient = Patient.query.filter_by(patient_id=patient_id).first()
     if patient:
+        return render_template("update_patient3.html", patient=patient)
+    else:
+        return "No patient under the given ID"
+
+@app.route('/update_patient3', methods=['POST'])
+def update_patient3():
+    patient_id = int(request.form['patient_id'])
+    patient = Patient.query.filter_by(patient_id=patient_id).first()
+    if patient:
         patient.patient_name = request.form['patient_name']
         patient.patient_age = int(request.form['patient_age'])
         patient.type_of_bed = request.form['type_of_bed']
@@ -216,9 +225,8 @@ def update_patient2():
         patient.city = request.form['city']
         
         db.session.commit()
-        return jsonify(message="You updated a patient"), 202
-    else:
-        return jsonify(message="That patient does not exists"), 404
+    return jsonify(message="You updated a patient"), 202
+    
 
 
 
@@ -276,7 +284,7 @@ def pharmacist_search_patient2():
     rate=[]
     medicine_name=[]
     if patient:
-        return render_template("pharmacist_search_patient2.html", patient=patient, medicine_list=medicine_list, medicine_issued_for_patient=medicine_issued_for_patient, rate=rate, medicine_name=medicine_name)
+        return render_template("pharmacist_search_patient2.html", patient_id=patient_id, patient=patient, medicine_list=medicine_list, medicine_issued_for_patient=medicine_issued_for_patient, rate=rate, medicine_name=medicine_name)
     else:
         return jsonify(message="The patient does not exist"), 404
 
@@ -394,10 +402,9 @@ def diagnostic_search_patient2():
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
     diagnostic_for_patient = PatientDiagnostic.query.all()
     diagnostic_list = Diagnostic.query.all()
-    rate=[]
-    medicine_name=[]
+
     if patient:
-        return render_template("diagnostic_search_patient2.html", patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient, rate=rate, medicine_name=medicine_name)
+        return render_template("diagnostic_search_patient2.html", patient_id=patient_id, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
         return jsonify(message="The patient does not exist"), 404
 
