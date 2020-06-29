@@ -1,8 +1,11 @@
 
-
-
-<table style="width:100%">
-    <tr style="text-align: center;">
+{% extends "layout.html" %}
+{% block content %}
+<h1>Patients List</h1>
+<div class="background_table">
+  <div style="opacity:inherit 200%;">
+<table style="width:100%;">
+    <tr style="color: rgb(235, 157, 235);">
       <th>Patient SSN ID</th>
       <th>Name</th>
       <th>Age</th>
@@ -11,7 +14,7 @@
       <th>Type of Room</th>
     </tr>
     {% for member in patient %}
-    <tr style="text-align: center;">
+    <tr>
       <td>{{member.patient_id}}</td>
       <td>{{member.patient_name}}</td>
       <td>{{member.patient_age}}</td>
@@ -22,3 +25,6 @@
     </tr>
     {% endfor %}
   </table>
+</div>
+</div>
+  {% endblock %}  

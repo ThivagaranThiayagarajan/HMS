@@ -97,7 +97,9 @@ def db_seed():
 def login():
     return render_template("login.html")
 
-
+@app.route('/home')
+def home():
+    return render_template("index.html")
 
 @app.route('/patients', methods=['GET'])
 def patients():

@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-        <center><h1>Patient Registration</h1></center>
+        <center><h1>Patient Registration</h1>
         <br>
         <div>
-            <form action="add_patient" method="POST">
+            <form action="add_patient" method="POST"></center>
               <div class="background">
                 <center>
                   <table>
@@ -18,9 +18,11 @@
                   </table>
                   <h5>*Required</h5>
                   <button type="submit">Create Patient Account</button>
-                  <button type="submit">Reset</button>
+                </form>
+                  <form action="create_patient"><button type="submit">Reset</button></form>
                 </center>
               </div>
-            </form>
+            
         </div>
+      
 {% endblock %}  

@@ -1,52 +1,19 @@
-<html>
-    <head>
-        <title>Delete Patient</title>
-        <br/>
-        <center><h2>GetWell Hospital</h2></center>
-        <center>We care for your Wellness!!!</center>
-        <br/>
-        <center>
-          <select name="Patient" id="patient">
-            <option value="patient">--Patient--</option>
-            <option value="create_patient">Create Patient</option>
-            <option value="update_patient">Update patient</option>
-            <option value="delete_patient">Delete patient</option>
-            <option value="view_patient">View patient</option>
-          </select>
 
-          <select name="Pharmacy" id="pharmacy">
-            <option value="pharmacy">--Pharmacy--</option>
-            <option value="issue_medicines">Issue Medicines</option>
-            <option value="final_billing">Final Billing</option>
-          </select>
-
-          <select name="Diagnostics" id="diagnostics">
-            <option value="diagnostics">--Diagnostics--</option>
-            <option value="add_diagnostics">Add Diagnostics</option>
-          </select>
-          </center>
-        
-        <br/>
-        <br/>
-        <hr/>
-
-    </head>
-
-    <body>
-        <center><h4>Patient Registration</h4></center>
+{% extends "layout.html" %}
+{% block content %}
+        <center><h1>Patient Registration</h1></center>
         <br>
-        <div>
+        <div  class="background_regpat">
             <form action="delete_patient2" method="POST">
                 <center>
                 <table>
-                <tr><th>Patient SSN ID *:</th> <th><input type="text" name="patient_id"></th>
+                <tr><th>Patient SSN ID*</th> <th>: <input type="text" name="patient_id"></th>
                 
                 </table>
-                <h5>* Mandatory</h5>
+                <h5>*Required</h5>
                 <button type="submit">Delete</button>
                 </center>
 
             </form>
         </div>
-    </body>
-    </html>
+{% endblock %}  
