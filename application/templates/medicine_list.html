@@ -1,65 +1,26 @@
-<html>
-    <head>
-        <title>List of Medicines available</title>
-        <br/>
-        <center><h2>GetWell Hospital</h2></center>
-        <center>We care for your Wellness!!!</center>
-        <br/>
-        <center>
-          <select name="Patient" id="patient">
-            <option value="patient">--Patient--</option>
-            <option value="create_patient">Create Patient</option>
-            <option value="update_patient">Update patient</option>
-            <option value="delete_patient">Delete patient</option>
-            <option value="view_patient">View patient</option>
-          </select>
-
-          <select name="Pharmacy" id="pharmacy">
-            <option value="pharmacy">--Pharmacy--</option>
-            <option value="issue_medicines">Issue Medicines</option>
-            <option value="final_billing">Final Billing</option>
-          </select>
-
-          <select name="Diagnostics" id="diagnostics">
-            <option value="diagnostics">--Diagnostics--</option>
-            <option value="add_diagnostics">Add Diagnostics</option>
-          </select>
-          </center>
-        
-        <br/>
-        <br/>
-        <hr/>
-
-    </head>
-
-    <body>
-      <div>
-<div>
-    <h1 style="text-align: center;">MEDICINES ISSUED</h1>
+{% extends "layout.html" %}
+{% block content %}
+<h1>Medicines List</h1>
+<div class="background_table" style="left: 10%;">
+<div style="opacity:inherit 200%;">
+    
     
     <table style="width:100%">
-        <tr style="text-align: center;">
-            <th>Medicine ID</th>
+        <tr style="color: rgb(235, 157, 235);" >
+          <th>Medicine ID</th>
           <th>Medicine Name</th>
           <th>Quantity Available</th>
           <th>Rate</th>
-          
         </tr>
-
-            
-        {% for med in medicines %}
-            
-                    <tr style="text-align: center;">
-                        <td>{{med.medicine_id}}</td>
-                        <td>{{med.medicine_name}}</td>
-                        <td>{{med.quantity_available}}</td>
-                        <td>{{med.rate}}</td>
-                    </tr>
-                
+        {% for med in medicines %}          
+        <tr>
+            <td>{{med.medicine_id}}</td>
+            <td>{{med.medicine_name}}</td>
+            <td>{{med.quantity_available}}</td>
+            <td>{{med.rate}} Rs.</td>
+        </tr>
         {% endfor %}
       </table>
     </div>
 </div>
-
-</body>
-</html>
+{% endblock %}

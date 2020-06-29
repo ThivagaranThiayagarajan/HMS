@@ -1,44 +1,12 @@
-<html>
-    <head>
-        <title>Diagnostics Patient Details</title>
-        <br/>
-        <center><h2>GetWell Hospital</h2></center>
-        <center>We care for your Wellness!!!</center>
-        <br/>
-        <center>
-          <select name="Patient" id="patient">
-            <option value="patient">--Patient--</option>
-            <option value="create_patient">Create Patient</option>
-            <option value="update_patient">Update patient</option>
-            <option value="delete_patient">Delete patient</option>
-            <option value="view_patient">View patient</option>
-          </select>
+{% extends "layout.html" %}
+{% block content %}
+<h1>Diagnostic Bill</h1>
+<div class="background_table_bill">
+<div style="opacity:inherit 200%;">
 
-          <select name="Pharmacy" id="pharmacy">
-            <option value="pharmacy">--Pharmacy--</option>
-            <option value="issue_medicines">Issue Medicines</option>
-            <option value="final_billing">Final Billing</option>
-          </select>
-
-          <select name="Diagnostics" id="diagnostics">
-            <option value="diagnostics">--Diagnostics--</option>
-            <option value="add_diagnostics">Add Diagnostics</option>
-          </select>
-          </center>
-        
-        <br/>
-        <br/>
-        <hr/>
-
-    </head>
-
-    <body>
-<div>
-<div>
-<h3 style="text-align: center;">DIAGNOSTICS</h3>
 
 <table style="width:100%">
-    <tr style="text-align: center;">
+    <tr style="color: rgb(235, 157, 235);">
       <th>Patient SSN ID</th>
       <th>Name</th>
       <th>Age</th>
@@ -59,18 +27,16 @@
 </div>
 </div>
 
-<br><br><br>
 
-<center><button type="submit">Get Details</button></center>
 
-<br><br><br>
+<center><button type="submit" style="width:100px; position:relative;left:0%;margin:170px 50px 0px;">Get Details</button></center>
 
-<div>
-    <div>
-    <h3 style="text-align: center;">BILL FOR DIAGNOSTICS</h3>
-    
+
+<h1 style="padding: 20px;">Diagnostic issued</h1>
+<div  class="background_table_bill1">
+    <div style="opacity:inherit 200%;">
     <table style="width:100%">
-      <tr style="text-align: center;">
+      <tr style="color: rgb(235, 157, 235);">
         <th>Name of the Test</th>
         <th>Amount</th>
       </tr>
@@ -81,7 +47,7 @@
 
               <tr style="text-align: center;">
                 <td>{{dia.name_of_the_test}}</td>
-                <td>{{dia.amount}}</td>
+                <td>{{dia.amount}} Rs.</td>
                 
               </tr>
           {% endif %}
@@ -92,3 +58,5 @@
     </div>
 
     </body>
+
+    {% endblock %}

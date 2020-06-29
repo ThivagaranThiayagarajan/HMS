@@ -7,7 +7,7 @@ from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from flask_mail import Mail, Message
 from datetime import date
-import random
+import random,os
 
 
 db = SQLAlchemy(app)
@@ -15,6 +15,25 @@ ma = Marshmallow(app)
 jwt = JWTManager(app)
 mail = Mail(app)
 
+# print("begin here")
+
+
+with open('application/cities.json', 'r') as cities:
+    city = json.load(cities)
+states=[]
+cities=[]
+j=0
+for i in city:
+    state= i['state'] 
+    states.append(state)
+    citi = i['name']
+    cities.append(citi)
+    j=j+1
+
+states = list( dict.fromkeys(states) )        
+# print (states)
+# print ("End of states...")
+# print (cities)
 
 @app.cli.command('db_create')
 def db_create():
@@ -212,7 +231,8 @@ def update_patient2():
     if patient:
         return render_template("update_patient3.html", patient=patient)
     else:
-        return "No patient under the given ID"
+        flash("alert(No patient under the given ID)")
+        return render_template("update_patient.html")
 
 @app.route('/update_patient3', methods=['POST'])
 def update_patient3():
