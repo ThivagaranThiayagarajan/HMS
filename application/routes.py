@@ -351,6 +351,35 @@ def issue_medicine():
 
 
 
+
+@app.route("/medicine_list")
+def medicine_list():
+    medicines = Medicine.query.all()
+    return render_template("medicine_list.html", medicines=medicines)
+
+
+
+
+@app.route('/pharmacist_search_patient_bill3')
+def pharmacist_search_patient_bill3():
+    return render_template("pharmacist_search_patient_bill3.html")
+
+
+@app.route('/pharmacist_search_patient_bill4', methods=['POST'])
+def pharmacist_search_patient_bill4():
+    patient_id=int(request.form['patient_id'])
+    patient =  Patient.query.filter_by(patient_id=patient_id).first()
+    medicine_issued_for_patient = Patient_Medicine.query.all()
+    medicine_list = Medicine.query.all()
+    rate=[]
+    medicine_name=[]
+    if patient:
+        return render_template("pharmacist_search_patient_bill4.html", patient=patient, medicine_list=medicine_list, medicine_issued_for_patient=medicine_issued_for_patient, rate=rate, medicine_name=medicine_name)
+    else:
+        return jsonify(message="The patient does not exist"), 404
+
+
+
 ##################### DIAGNOSTIC #########################
 
 
@@ -443,9 +472,72 @@ def issue_diagnostic():
     return render_template("issue_diagnostic.html", diagnostics=diagnostics, test_to_be_conducted=test_to_be_conducted, amount_list=amount_list)
 
 
+@app.route("/diagnostic_list")
+def diagnostic_list():
+    diagnostics = Diagnostic.query.all()
+    return render_template("diagnostic_list.html", diagnostics=diagnostics)
+
+
+
+
+@app.route('/diagnostic_bill_search_patient3')
+def diagnostic_bill_search_patient3():
+    return render_template("diagnostic_bill_search_patient3.html")
+
+@app.route('/diagnostic_bill_search_patient4', methods=['POST'])
+def diagnostic_bill_search_patient4():
+    patient_id=int(request.form['patient_id'])
+    patient =  Patient.query.filter_by(patient_id=patient_id).first()
+    diagnostic_for_patient = PatientDiagnostic.query.all()
+    diagnostic_list = Diagnostic.query.all()
+    rate=[]
+    medicine_name=[]
+    if patient:
+        return render_template("diagnostic_bill_search_patient4.html", patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient, rate=rate, medicine_name=medicine_name)
+    else:
+        return jsonify(message="The patient does not exist"), 404
 
 
         
+
+
+#################### BILL DETAILS ############################
+
+
+@app.route('/bill_search_patient')
+def bill_search_patient():
+    return render_template("bill_search_patient.html")
+
+@app.route('/patient_bill', methods=['POST'])
+def patient_bill():
+    patient_id=int(request.form['patient_id'])
+    patient =  Patient.query.filter_by(patient_id=patient_id).first()
+    
+    medicine_issued_for_patient = Patient_Medicine.query.all()
+    medicine_list = Medicine.query.all()
+
+    total_medicine_bill=0
+    for med in medicine_list:
+        for mp in medicine_issued_for_patient:
+            if med.medicine_id == mp.medicine_id:
+                total_medicine_bill+=(mp.quantity_issued*med.rate)
+                    
+    
+    diagnostic_for_patient = PatientDiagnostic.query.all()
+    diagnostic_list = Diagnostic.query.all()
+
+    total_diagnostic_bill=0
+    for dia in diagnostic_list:
+        for dp in diagnostic_for_patient:
+            if dia.diagnostic_id == dp.diagnostic_id:
+                total_diagnostic_bill+=dia.amount
+    
+    grand_total=total_medicine_bill+total_diagnostic_bill
+    
+    if patient:
+        return render_template("patient_bill.html", total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
+    else:
+        return jsonify(message="The patient does not exist"), 404
 
 
 
