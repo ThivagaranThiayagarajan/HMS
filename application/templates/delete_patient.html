@@ -1,17 +1,22 @@
 
 {% extends "layout.html" %}
 {% block content %}
+<script>
+function message() {
+  confirm("Delete this person for sure?");
+}
+</script>
         <center><h1>Delete Patient</h1></center>
         <br>
         <div  class="background_regpat">
-            <form action="delete_patient2" method="POST">
+            <form method="POST">
                 <center>
                 <table>
                 <tr><th>Patient SSN ID*</th> <th>: <input type="text" name="patient_id"></th>
                 
                 </table>
                 <h5>*Required</h5>
-                <button type="submit">Delete</button>
+                <button type="submit" onclick="message()" formaction="delete_patient2">Delete</button>
                 </center>
 
             </form>

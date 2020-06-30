@@ -255,7 +255,7 @@ def update_patient3():
 
 @app.route('/delete_patient')
 def delete_patient():
-    return render_template("delete_patient.html")
+    return render_template("search_patient.html",page_value="Delete Patient",button_value="Delete")
 
 @app.route('/delete_patient2', methods=['POST'])
 def delete_patient2():
@@ -282,21 +282,29 @@ def view_patient_screen():
 
 @app.route('/search_patient')
 def search_patient():
-    return render_template("search_patient.html")
+    return render_template("search_patient.html",page_value="Patient Search",button_value="Search")
 
 @app.route('/display_patient', methods=['POST'])
 def display_patient():
     patient_id=int(request.form['patient_id'])
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
+    page_value=request.form['search_button']
+    print(page_value)
     if patient:
-        return render_template("display_patient.html", patient=patient)
+        return render_template("display_patient.html", patient=patient,page_value=page_value,patient_id=patient_id)
     else:
         return jsonify(message="The patient does not exist"), 404
 
+##################__MEDICINE__#########################
 
 @app.route('/pharmacist_search_patient1')
 def pharmacist_search_patient1():
     return render_template("pharmacist_search_patient1.html")
+
+
+@app.route('/pharmacist_search_patient_bill3')
+def pharmacist_search_patient_bill3():
+    return render_template("pharmacist_search_patient_bill3.html")
 
 
 @app.route('/pharmacist_search_patient2', methods=['POST'])
@@ -389,13 +397,6 @@ def issue_medicine():
 def medicine_list():
     medicines = Medicine.query.all()
     return render_template("medicine_list.html", medicines=medicines)
-
-
-
-
-@app.route('/pharmacist_search_patient_bill3')
-def pharmacist_search_patient_bill3():
-    return render_template("pharmacist_search_patient_bill3.html")
 
 
 @app.route('/pharmacist_search_patient_bill4', methods=['POST'])
@@ -571,6 +572,15 @@ def patient_bill():
     else:
         return jsonify(message="The patient does not exist"), 404
 
+@app.route('/edit_diagnostics')
+def edit_diagnostics():
+    diagnostics = Diagnostic.query.all()
+    return render_template("edit_diagnostics.html",diagnostics=diagnostics)
+
+@app.route('/edit_medicines')
+def edit_medicines():
+    medicines = Medicine.query.all()
+    return render_template("edit_medicines.html",medicines=medicines)
 
 
 # database models
