@@ -43,7 +43,7 @@
 
         {% for med in medicine_list %}
           {% for mp in medicine_issued_for_patient %}
-            {% if med.medicine_id == mp.medicine_id %}
+            {% if med.medicine_id == mp.medicine_id and mp.patient_id==patient_id%}
 
                 <tr style="text-align: center;">
                   <td>{{med.medicine_name}}</td>
