@@ -299,13 +299,12 @@ def display_patient():
 
 @app.route('/pharmacist_search_patient1')
 def pharmacist_search_patient1():
-    return render_template("pharmacist_search_patient1.html")
+    return render_template("diagnostic_search_patient1.html",page_value="Pharmacists Search Patient",button_value="Search")
 
 
 @app.route('/pharmacist_search_patient_bill3')
 def pharmacist_search_patient_bill3():
-    return render_template("pharmacist_search_patient_bill3.html")
-
+    return render_template("diagnostic_search_patient1.html",page_value="Pharmacists Patient Bill Search",button_value="Search")
 
 @app.route('/pharmacist_search_patient2', methods=['POST'])
 def pharmacist_search_patient2():
@@ -419,7 +418,13 @@ def pharmacist_search_patient_bill4():
 
 @app.route('/diagnostic_search_patient1')
 def diagnostic_search_patient1():
-    return render_template("diagnostic_search_patient1.html")
+    return render_template("diagnostic_search_patient1.html",page_value="Diagnostics Search Patient",button_value="Search")
+
+
+@app.route('/diagnostic_bill_search_patient3')
+def diagnostic_bill_search_patient3():
+    return render_template("diagnostic_search_patient1.html",page_value="Diagnostics Patient Bill Search",button_value="Search")
+
 
 @app.route('/diagnostic_search_patient2', methods=['POST'])
 def diagnostic_search_patient2():
@@ -511,11 +516,6 @@ def diagnostic_list():
     return render_template("diagnostic_list.html", diagnostics=diagnostics)
 
 
-
-
-@app.route('/diagnostic_bill_search_patient3')
-def diagnostic_bill_search_patient3():
-    return render_template("diagnostic_bill_search_patient3.html")
 
 @app.route('/diagnostic_bill_search_patient4', methods=['POST'])
 def diagnostic_bill_search_patient4():

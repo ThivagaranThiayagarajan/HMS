@@ -1,9 +1,24 @@
-<div>
-    <h1>DIAGNOSTIC SEARCH PATIENT</h1>
-<div>
-    <form action="diagnostic_search_patient2" method="POST">
-        Patient SSN ID: <input type="text" name="patient_id">
-        <button type="submit">Search Patient Account</button>
-    </form>
-</div>
-</div>
+{% extends "layout.html" %}
+{% block content %}
+        <center><h1>{{page_value}}</h1></center>
+        <br>
+        <div class="background_regpat">
+            <form method="POST">
+                <center>
+                <table>
+                <tr><th>Patient SSN ID*</th> <th>: <input type="text" name="patient_id"></th>
+                </table>
+                <h5>*Required</h5>
+                {% if 'Diagnostics Search Patient' == page_value %}
+                <button type="submit" formaction="diagnostic_search_patient2">{{button_value}}</button>
+                {% elif 'Pharmacists Search Patient'== page_value %}
+                <button type="submit" formaction="pharmacist_search_patient2">{{button_value}}</button>
+                {% elif 'Pharmacists Patient Bill Search'== page_value %}
+                <button type="submit" formaction="pharmacist_search_patient_bill4">{{button_value}}</button>
+                {% elif 'Diagnostics Patient Bill Search'== page_value %}
+                <button type="submit" formaction="diagnostic_bill_search_patient4">{{button_value}}</button>
+                {% endif %}
+                </center>
+            </form>
+        </div>
+{% endblock %}
