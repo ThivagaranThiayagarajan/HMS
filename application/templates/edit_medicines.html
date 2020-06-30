@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Diagnostics List</title>
+        <title>Edit Medicine List</title>
         <br/>
         <center><h2>GetWell Hospital</h2></center>
         <center>We care for your Wellness!!!</center>
@@ -33,21 +33,28 @@
     </head>
 
     <body>
-        <h3><center>Diagnostics List</center></h3>
+        <h3><center>Edit Medicine List</center></h3>
         <br><br>
         <table style="width:100%">
             <tr style="text-align: center;">
               <th>S.no</th>
-              <th>Diagnostics Name</th>
-              <th>Amount</th>
+              <th>Medicine Name</th>
+              <th>Quantity</th>
+              <th>Rate</th>
             </tr>
 
             <tr style="text-align: center;">
                 <td>{{serial_no}}</td>
-                <td>{{dia.name_of_the_test}}</td>
-                <td>{{dia.amount}}</td>
+                <td>{{med.medicine_name}}</td>
+                <td>{{mp.quantity_issued}}</td>
+                <td>{{med.rate}}</td>
+                <td> <button type="submit">Edit</button> </td>
             </tr>
-    
+            </table>
+            <br><br>
+            <center><button type="submit">Add</button>
+                     <button type="submit">Update</button></center>
+
     </body>
 
     </html>
