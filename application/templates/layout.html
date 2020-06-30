@@ -52,6 +52,10 @@
     
   
   <body>
+    <div class="container">
+      {% include 'includes/_messages.html' %}
+      {% block body %}{% endblock %}
+    </div>
     {% block content %}
 
     {% endblock %}
