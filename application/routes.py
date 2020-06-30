@@ -7,7 +7,7 @@ from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from flask_mail import Mail, Message
 from datetime import date
-import random
+import random,os
 
 
 db = SQLAlchemy(app)
@@ -15,6 +15,25 @@ ma = Marshmallow(app)
 jwt = JWTManager(app)
 mail = Mail(app)
 
+# print("begin here")
+
+
+with open('application/cities.json', 'r') as cities:
+    city = json.load(cities)
+states=[]
+cities=[]
+j=0
+for i in city:
+    state= i['state'] 
+    states.append(state)
+    citi = i['name']
+    cities.append(citi)
+    j=j+1
+
+states = list( dict.fromkeys(states) )        
+# print (states)
+# print ("End of states...")
+# print (cities)
 
 @app.cli.command('db_create')
 def db_create():
@@ -212,7 +231,8 @@ def update_patient2():
     if patient:
         return render_template("update_patient3.html", patient=patient)
     else:
-        return "No patient under the given ID"
+        flash("alert(No patient under the given ID)")
+        return render_template("update_patient.html")
 
 @app.route('/update_patient3', methods=['POST'])
 def update_patient3():
@@ -235,7 +255,7 @@ def update_patient3():
 
 @app.route('/delete_patient')
 def delete_patient():
-    return render_template("delete_patient.html")
+    return render_template("search_patient.html",page_value="Delete Patient",button_value="Delete")
 
 @app.route('/delete_patient2', methods=['POST'])
 def delete_patient2():
@@ -262,22 +282,29 @@ def view_patient_screen():
 
 @app.route('/search_patient')
 def search_patient():
-    return render_template("search_patient.html")
+    return render_template("search_patient.html",page_value="Patient Search",button_value="Search")
 
 @app.route('/display_patient', methods=['POST'])
 def display_patient():
     patient_id=int(request.form['patient_id'])
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
+    page_value=request.form['search_button']
+    print(page_value)
     if patient:
-        return render_template("display_patient.html", patient=patient)
+        return render_template("display_patient.html", patient=patient,page_value=page_value,patient_id=patient_id)
     else:
         return jsonify(message="The patient does not exist"), 404
 
+##################__MEDICINE__#########################
 
 @app.route('/pharmacist_search_patient1')
 def pharmacist_search_patient1():
-    return render_template("pharmacist_search_patient1.html")
+    return render_template("diagnostic_search_patient1.html",page_value="Pharmacists Search Patient",button_value="Search")
 
+
+@app.route('/pharmacist_search_patient_bill3')
+def pharmacist_search_patient_bill3():
+    return render_template("diagnostic_search_patient1.html",page_value="Pharmacists Patient Bill Search",button_value="Search")
 
 @app.route('/pharmacist_search_patient2', methods=['POST'])
 def pharmacist_search_patient2():
@@ -371,13 +398,6 @@ def medicine_list():
     return render_template("medicine_list.html", medicines=medicines)
 
 
-
-
-@app.route('/pharmacist_search_patient_bill3')
-def pharmacist_search_patient_bill3():
-    return render_template("pharmacist_search_patient_bill3.html")
-
-
 @app.route('/pharmacist_search_patient_bill4', methods=['POST'])
 def pharmacist_search_patient_bill4():
     patient_id=int(request.form['patient_id'])
@@ -398,7 +418,13 @@ def pharmacist_search_patient_bill4():
 
 @app.route('/diagnostic_search_patient1')
 def diagnostic_search_patient1():
-    return render_template("diagnostic_search_patient1.html")
+    return render_template("diagnostic_search_patient1.html",page_value="Diagnostics Search Patient",button_value="Search")
+
+
+@app.route('/diagnostic_bill_search_patient3')
+def diagnostic_bill_search_patient3():
+    return render_template("diagnostic_search_patient1.html",page_value="Diagnostics Patient Bill Search",button_value="Search")
+
 
 @app.route('/diagnostic_search_patient2', methods=['POST'])
 def diagnostic_search_patient2():
@@ -491,11 +517,6 @@ def diagnostic_list():
 
 
 
-
-@app.route('/diagnostic_bill_search_patient3')
-def diagnostic_bill_search_patient3():
-    return render_template("diagnostic_bill_search_patient3.html")
-
 @app.route('/diagnostic_bill_search_patient4', methods=['POST'])
 def diagnostic_bill_search_patient4():
     patient_id=int(request.form['patient_id'])
@@ -551,6 +572,15 @@ def patient_bill():
     else:
         return jsonify(message="The patient does not exist"), 404
 
+@app.route('/edit_diagnostics')
+def edit_diagnostics():
+    diagnostics = Diagnostic.query.all()
+    return render_template("edit_diagnostics.html",diagnostics=diagnostics)
+
+@app.route('/edit_medicines')
+def edit_medicines():
+    medicines = Medicine.query.all()
+    return render_template("edit_medicines.html",medicines=medicines)
 
 
 # database models

@@ -1,4 +1,39 @@
-
+{% extends "layout.html" %}
+{% block content %}
+        <h1>Patient Details</h1>
+        <br>
+        <div>
+              <div class="background">
+                <form method="POST">
+                  <table>
+                  {% if 'Patient Search'== page_value %}
+                    <tr><th>Patient SSN ID</th> <th>: {{patient.patient_id}}</th></tr>
+                  {% elif 'Delete Patient'== page_value %}
+                  <tr><th>Patient SSN ID</th> <th>: <input type="text" name="patient_id" value="{{patient.patient_id}}"></th></tr>
+                  {% endif %}
+                  
+                  <tr><th>Patient Name</th> <th>: {{patient.patient_name}}</th></tr>
+                  <tr><th>Patient Age</th> <th>:  {{patient.patient_age}}</th></tr>
+                  <tr><th>Date of Admission</th> <th>:  {{patient.date}}</th></tr>
+                  <tr><th>Type of Bed</th> <th>:  {{patient.type_of_bed}}</th></tr>
+                  <tr><th>Address</th> <th>:  {{patient.address}}</th></tr>
+                  <tr><th>State</th> <th>:  {{patient.state}}</th></tr>
+                  <tr><th>City</th> <th>: {{patient.city}}</th></tr>
+                  </table>
+                
+                  {% if 'Patient Search'== page_value %}
+                    <button type="submit" formaction="">View Patient Bill</button>
+                    <button type="submit" formaction="">View Patient History</button>
+                  {% elif 'Delete Patient'== page_value %}
+                    <button type="submit" formaction="delete_patient2" >Confirm Delete Patient</button>
+                  {% endif %}
+                </form>
+              </div>
+            
+        </div>
+      
+{% endblock %}  
+<!-- 
 <h1 style="text-align: center;">VIEW PATIENT</h1>
 <form>
     <div style="text-align: center;">
@@ -33,4 +68,4 @@
       City: <input type="text" name="city" value={{patient.city}}>
     </div>
 
-</form>
+</form> -->

@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Edit Diagnostics List</h1>
+<div class="background_table_bill" style="left: 25%;">
+  <div style="opacity:inherit 200%;">
+     <center>  <table style="width:100%">
+            <tr style="color: rgb(235, 157, 235);" >
+              <th>Name of the Test</th>
+              <th>Amount</th>
+            </tr>
+            {% for dia in diagnostics %} 
+            <tr style="text-align: center;">
+                <td>{{dia.name_of_the_test}}</td>
+                <td>{{dia.amount}} Rs.</td>
+                <td> <button type="submit" style="width:100px;">Edit</button> </td>
+              </tr>
+            {% endfor %}  
+          <tr style="text-align: center;">
+            <td><button type="submit" style="width:100px;">Add</button></td>
+            <td><button type="submit" style="width:100px; ">Delete</button></td>
+          </tr>  
+          </table></center> 
+        </div>
+      </div>
+      {% endblock %}

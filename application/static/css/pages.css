@@ -409,3 +409,140 @@ background-color: black;
     border-radius: 10px;
     z-index:-1;
 }
+
+.background_table_bill
+{
+  background-color: #310d2f;
+    color: white;
+    /* background-image: url(/static/images/grey-back.png); */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;;
+    position: absolute;
+    opacity: 50%;
+    top:20%;
+    border: 1px solid black;
+    padding:20px;
+    margin-bottom: 100px;
+    border-radius: 10px;
+    z-index:-1;
+}
+
+.background_table_bill table
+{
+stroke:10px;
+
+border: 1px solid white;
+
+}
+
+.background_table_bill table tr
+{
+text-align: center;
+border: 1px solid white;
+
+}
+
+.background_table_bill table tr td
+{
+text-align: center;
+padding:10px;
+border: 1px solid white;
+}
+
+.background_table_bill table tr th
+{
+text-align: center;
+padding:10px;
+border: 1px solid white;
+background-color: black;
+}
+
+
+.background_table_bill1
+{
+  background-color: #310d2f;
+    color: white;
+    /* background-image: url(/static/images/grey-back.png); */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;;
+    position: relative;
+    opacity: 50%;
+    /* top:50%; */
+    border: 1px solid black;
+    padding:20px 20px 20px 20px;
+    /* margin-top: 100px; */
+    border-radius: 10px;
+    z-index:-1;
+}
+
+.background_table_bill1 table
+{
+stroke:10px;
+
+border: 1px solid white;
+
+}
+
+.background_table_bill1 table tr
+{
+text-align: center;
+border: 1px solid white;
+
+}
+
+.background_table_bill1 table tr td
+{
+text-align: center;
+padding:10px;
+border: 1px solid white;
+}
+
+.background_table_bill1 table tr th
+{
+text-align: center;
+padding:10px;
+border: 1px solid white;
+background-color: black;
+}
+
+.background_table_bill2
+{
+  background-color: #310d2f;
+    color: white;
+    /* background-image: url(/static/images/grey-back.png); */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;;
+    position: relative;
+    opacity: 50%;
+    border: 1px solid black;
+    padding:20px;
+    /* margin-bottom: 100px; */
+    border-radius: 10px;
+    z-index:-1;
+}
+
+.background_table_bill2 table
+{
+stroke:10px;
+border: 1px solid white;
+
+}
+
+.background_table_bill2 table tr
+{
+text-align: center;
+border: 1px solid white;
+
+}
+
+.background_table_bill2 table tr td
+{
+text-align: center;
+padding:10px;
+border: 1px solid white;
+}
+
+.background_table_bill2 table tr th
+{
+text-align: center;
+padding:10px;
+border: 1px solid white;
+background-color: black;
+}
