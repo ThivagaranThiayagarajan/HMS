@@ -182,7 +182,7 @@ def add_patient():
     if test:
         return jsonify(message="There is already a patient by that name"), 409
     else:
-        patient_id = int(request.form['patient_id'])
+        patient_id = random.randint(10000,99999)
         patient_age = int(request.form['patient_age'])
         date = str(request.form['date'])
         type_of_bed = str(request.form['type_of_bed'])
@@ -194,7 +194,7 @@ def add_patient():
 
         db.session.add(new_patient)
         db.session.commit()
-        return jsonify(message="You added a patient"), 201
+        return jsonify(message="You added a patient and patient id is "+str(patient_id)), 201
 
 
 
