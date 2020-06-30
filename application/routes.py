@@ -192,7 +192,7 @@ def patient_details(patient_id:int):
 
 @app.route('/create_patient')
 def create_patient():
-    return render_template("create_patient.html")
+    return render_template("create_patient.html",states=states,cities=cities)
 
 @app.route('/add_patient', methods=["POST"])
 def add_patient():
@@ -205,9 +205,9 @@ def add_patient():
         patient_age = int(request.form['patient_age'])
         date = str(request.form['date'])
         type_of_bed = str(request.form['type_of_bed'])
-        address = request.form['address']
-        state = request.form['state']
-        city = request.form['city']
+        address =str(request.form['address'])
+        state = str(request.form['state'])
+        city =str(request.form['city'])
 
         new_patient = Patient(patient_id=patient_id, patient_name=patient_name, patient_age=patient_age, date=date, type_of_bed=type_of_bed, address=address, state=state, city=city)
 
@@ -229,7 +229,7 @@ def update_patient2():
     patient_id = int(request.form['patient_id'])
     patient = Patient.query.filter_by(patient_id=patient_id).first()
     if patient:
-        return render_template("update_patient3.html", patient=patient)
+        return render_template("update_patient3.html", patient=patient,states=states,cities=cities)
     else:
         flash("alert(No patient under the given ID)")
         return render_template("update_patient.html")
@@ -432,7 +432,7 @@ def diagnostic_search_patient2():
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
     diagnostic_for_patient = PatientDiagnostic.query.all()
     diagnostic_list = Diagnostic.query.all()
-
+    # diagnostics = Diagnostic.query.all()
     if patient:
         return render_template("diagnostic_search_patient2.html", patient_id=patient_id, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
@@ -442,11 +442,16 @@ def diagnostic_search_patient2():
 
 @app.route('/get_diagnostic_count', methods=['POST'])
 def get_diagnostic_count():
-    patient_id = int(request.form['patient_id'])
+    patient_id = int(request.form['add_button'])
     p = Patient.query.filter_by(patient_id=patient_id).first()
     if p:
-        count=int(request.form['count'])
-        return render_template("get_diagnostic_details.html", count=count, patient_id=patient_id)
+        name_of_the_test=request.form['name_of_the_test']
+        d_id=Diagnostic.query.filter_by(name_of_the_test=name_of_the_test).first()
+        patient_diagnostic=PatientDiagnostic(patient_id=patient_id, diagnostic_id=d_id)
+        db.session.append(patient_diagnostic)
+        return redirect(url_for("diagnostic_search_patient2"))
+        # count=int(request.form['count'])
+        # return render_template("get_diagnostic_details.html", count=count, patient_id=patient_id)
     else:
         return render_template("not_exist.html")
 

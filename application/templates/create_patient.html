@@ -3,7 +3,7 @@
         <center><h1>Patient Registration</h1>
         <br>
         <div>
-            <form action="add_patient" method="POST"></center>
+            <form action="add_patient"  method="POST"></center>
               <div class="background">
                 <center>
                   <table>
@@ -19,8 +19,20 @@
                                             </th>
                   </tr>
                   <tr><th>Address*</th> <th>:  <input type="text" name="address"></th></tr>
-                  <tr><th>State*</th> <th>:  <input type="text" name="state"></th></tr>
-                  <tr><th>City*</th> <th>: <input type="text" name="city"></th></tr>
+                  <!-- <tr><th>State*</th> <th>:  <input type="text" name="state"></th></tr> -->
+                  <tr><th>State*</th> <th>: <select id="state" name="state" >
+                    <option value="">None</option>
+                    {% for state in states %}
+                    <option value="{{state}}">{{state}}</option>
+                    {% endfor %}
+                  </th>
+                  <!-- <tr><th>City*</th> <th>: <input type="text" name="city"></th></tr> -->
+                  <tr><th>City*</th> <th>:  <select id="city" name="city" >
+                    <option value="">None</option>
+                    {% for city in cities %}
+                    <option value="{{city}}">{{city}}</option>
+                    {% endfor %}
+                  </th>
                   </table>
                   <h5>*Required</h5>
                   <button type="submit">Create Patient Account</button>

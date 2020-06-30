@@ -1,44 +1,12 @@
-<html>
-    <head>
-        <title>Pharmacy Patient Details</title>
-        <br/>
-        <center><h2>GetWell Hospital</h2></center>
-        <center>We care for your Wellness!!!</center>
-        <br/>
-        <center>
-          <select name="Patient" id="patient">
-            <option value="patient">--Patient--</option>
-            <option value="create_patient">Create Patient</option>
-            <option value="update_patient">Update patient</option>
-            <option value="delete_patient">Delete patient</option>
-            <option value="view_patient">View patient</option>
-          </select>
+{% extends "layout.html" %}
+{% block content %}
+<h1>Pharmacy</h1>
+<div class="background_table_bill">
+<div style="opacity:inherit 200%;">
 
-          <select name="Pharmacy" id="pharmacy">
-            <option value="pharmacy">--Pharmacy--</option>
-            <option value="issue_medicines">Issue Medicines</option>
-            <option value="final_billing">Final Billing</option>
-          </select>
-
-          <select name="Diagnostics" id="diagnostics">
-            <option value="diagnostics">--Diagnostics--</option>
-            <option value="add_diagnostics">Add Diagnostics</option>
-          </select>
-          </center>
-        
-        <br/>
-        <br/>
-        <hr/>
-
-    </head>
-
-    <body>
-<div>
-<div>
-<h3 style="text-align: center;">PHARMACY</h3>
 
 <table style="width:100%">
-    <tr style="text-align: center;">
+    <tr style="color: rgb(235, 157, 235);">
       <th>Patient SSN ID</th>
       <th>Name</th>
       <th>Age</th>
@@ -59,18 +27,18 @@
 </div>
 </div>
 
-<br><br><br>
 
-<center><button type="submit">Get Details</button></center>
 
-<br><br><br>
+<center><button type="submit" style="width:100px; position:relative;left:0%;margin:170px 50px 0px;">Get Details</button></center>
 
-<div>
-    <div>
-    <h3 style="text-align: center;">MEDICINES ISSUED</h3>
+
+<h1 style="padding: 20px;">Medicines to be issued</h1>
+<div class="background_table_bill1">
+    <div style="opacity:inherit 200%;">
+   
     
     <table style="width:100%">
-        <tr style="text-align: center;">
+        <tr style="color: rgb(235, 157, 235);">
           <th>Medicine Name</th>
           <th>Quantity</th>
           <th>Rate</th>
@@ -96,9 +64,8 @@
     <br><br><br>
     <div style="text-align: center;">
     <form action="get_med_count" method="POST">
-      Patient ID: <input type="text" name="patient_id" value={{patient.patient_id}}>
-    Count: <input type="text" name="count"><br><br>
+      Patient ID: <input type="text" name="patient_id" style="width:100px" value={{patient.patient_id}}>
+    Count: <input type="text" style="width:100px" name="count"><br><br>
     <button type="submit">Issue medicines</button>
   </div>
-  </form>
-    </body>
+  {% endblock %}
