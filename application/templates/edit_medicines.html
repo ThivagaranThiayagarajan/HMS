@@ -16,12 +16,24 @@
                 <td>{{med.medicine_name}}</td>
                 <td>{{med.quantity_available}}</td>
                 <td>{{med.rate}} Rs.</td>
-                <td> <button type="submit" style="width:100px;">Edit</button> </td>
+                <td> 
+                  <form action="edit_med1">
+                    <button type="submit" style="width:100px;">Edit</button> 
+                  </form>
+                </td>
             </tr>
             {% endfor %}
             <tr  style="text-align: center;">
-            <td colspan='2'><button type="submit" style="width:100px;">Add</button></td>
-            <td colspan='2'><button type="submit" style="width:100px; ">Delete</button></td>
+            <td colspan='2'>
+              <form action="add_med">
+                <button type="submit" style="width:100px;">Add</button>
+              </form>
+            </td>
+            <td colspan='2'>
+              <form action="delete_med1">
+                <button type="submit" style="width:100px; ">Delete</button>
+              </form>
+            </td>
             </tr>
             </table>
           </div>

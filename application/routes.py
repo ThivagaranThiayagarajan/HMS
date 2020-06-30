@@ -1,5 +1,5 @@
 from application import app
-from flask import render_template,request, json, Response, redirect, flash, url_for, session, jsonify
+from flask import render_template,request, json, Response, redirect, flash, url_for, session, jsonify, flash
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float
@@ -199,9 +199,10 @@ def add_patient():
     patient_name = request.form['patient_name']
     test = Patient.query.filter_by(patient_name=patient_name).first()
     if test:
-        return jsonify(message="There is already a patient by that name"), 409
+        flash('The patient '+patient_name+' with patient ID '+str(test.patient_id)+' is already registered', 'danger')
+        return render_template("index.html")
     else:
-        patient_id = int(request.form['patient_id'])
+        patient_id = int(random.randint(10000,99999))
         patient_age = int(request.form['patient_age'])
         date = str(request.form['date'])
         type_of_bed = str(request.form['type_of_bed'])
@@ -213,7 +214,8 @@ def add_patient():
 
         db.session.add(new_patient)
         db.session.commit()
-        return jsonify(message="You added a patient"), 201
+        flash('The patient is now registered and patient ID is '+str(patient_id), 'success')
+        return render_template("index.html")
 
 
 
@@ -247,7 +249,8 @@ def update_patient3():
         patient.city = request.form['city']
         
         db.session.commit()
-    return jsonify(message="You updated a patient"), 202
+        flash("The data of patient "+patient.patient_name+" with ID "+str(patient_id)+" is successfully updated")
+    return render_template("index.html")
     
 
 
@@ -264,9 +267,11 @@ def delete_patient2():
     if patient:
         db.session.delete(patient)
         db.session.commit()
-        return jsonify(message="You deleted the patient successfully!!"), 202
+        flash("You deleted the patient successfully!!")
+        return render_template("index")
     else:
-        return jsonify(message="The patient does not exist"), 404
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
 
 
 
@@ -276,7 +281,8 @@ def view_patient_screen():
     if patient:
         return render_template("view_patient_screen.html", patient=patient)
     else:
-        return jsonify(message="The patient does not exist"), 404
+        flash("There is no patient in the database","danger")
+        return render_template("index")
 
 
 
@@ -293,7 +299,8 @@ def display_patient():
     if patient:
         return render_template("display_patient.html", patient=patient,page_value=page_value,patient_id=patient_id)
     else:
-        return jsonify(message="The patient does not exist"), 404
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
 
 ##################__MEDICINE__#########################
 
@@ -312,10 +319,8 @@ def pharmacist_search_patient2():
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
     medicine_issued_for_patient = Patient_Medicine.query.all()
     medicine_list = Medicine.query.all()
-    rate=[]
-    medicine_name=[]
     if patient:
-        return render_template("pharmacist_search_patient2.html", patient_id=patient_id, patient=patient, medicine_list=medicine_list, medicine_issued_for_patient=medicine_issued_for_patient, rate=rate, medicine_name=medicine_name)
+        return render_template("pharmacist_search_patient2.html", patient_id=patient_id, patient=patient, medicine_list=medicine_list, medicine_issued_for_patient=medicine_issued_for_patient)
     else:
         return jsonify(message="The patient does not exist"), 404
 
@@ -328,7 +333,8 @@ def get_med_count():
         count=int(request.form['count'])
         return render_template("get_med_details.html", count=count, patient_id=patient_id)
     else:
-        return render_template("not_exist.html")
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
 
 
 @app.route('/issue_medicine', methods=['POST'])
@@ -386,7 +392,8 @@ def issue_medicine():
                     count2=count2+1
             print("********************")
     else:
-        print("no such patient exist")
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
     return render_template("issue_medicines.html", medicines=medicines, medicine_name_list=medicine_name_list, quantity_list=quantity_list)
 
 
@@ -404,12 +411,11 @@ def pharmacist_search_patient_bill4():
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
     medicine_issued_for_patient = Patient_Medicine.query.all()
     medicine_list = Medicine.query.all()
-    rate=[]
-    medicine_name=[]
     if patient:
-        return render_template("pharmacist_search_patient_bill4.html", patient=patient, medicine_list=medicine_list, medicine_issued_for_patient=medicine_issued_for_patient, rate=rate, medicine_name=medicine_name)
+        return render_template("pharmacist_search_patient_bill4.html", patient_id=patient_id, patient=patient, medicine_list=medicine_list, medicine_issued_for_patient=medicine_issued_for_patient)
     else:
-        return jsonify(message="The patient does not exist"), 404
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
 
 
 
@@ -436,7 +442,8 @@ def diagnostic_search_patient2():
     if patient:
         return render_template("diagnostic_search_patient2.html", patient_id=patient_id, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
-        return jsonify(message="The patient does not exist"), 404
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
 
 
 
@@ -453,7 +460,8 @@ def get_diagnostic_count():
         # count=int(request.form['count'])
         # return render_template("get_diagnostic_details.html", count=count, patient_id=patient_id)
     else:
-        return render_template("not_exist.html")
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
 
 
 @app.route('/issue_diagnostic', methods=['POST'])
@@ -510,7 +518,8 @@ def issue_diagnostic():
                     count2=count2+1
             print("********************")
     else:
-        print("no such patient exist")
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
     print(test_to_be_conducted)
     return render_template("issue_diagnostic.html", diagnostics=diagnostics, test_to_be_conducted=test_to_be_conducted, amount_list=amount_list)
 
@@ -528,12 +537,11 @@ def diagnostic_bill_search_patient4():
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
     diagnostic_for_patient = PatientDiagnostic.query.all()
     diagnostic_list = Diagnostic.query.all()
-    rate=[]
-    medicine_name=[]
     if patient:
-        return render_template("diagnostic_bill_search_patient4.html", patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient, rate=rate, medicine_name=medicine_name)
+        return render_template("diagnostic_bill_search_patient4.html", patient_id=patient_id, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
-        return jsonify(message="The patient does not exist"), 404
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
 
 
         
@@ -557,7 +565,7 @@ def patient_bill():
     total_medicine_bill=0
     for med in medicine_list:
         for mp in medicine_issued_for_patient:
-            if med.medicine_id == mp.medicine_id:
+            if med.medicine_id == mp.medicine_id and mp.patient_id==patient_id:
                 total_medicine_bill+=(mp.quantity_issued*med.rate)
                     
     
@@ -567,25 +575,161 @@ def patient_bill():
     total_diagnostic_bill=0
     for dia in diagnostic_list:
         for dp in diagnostic_for_patient:
-            if dia.diagnostic_id == dp.diagnostic_id:
+            if dia.diagnostic_id == dp.diagnostic_id and dp.patient_id==patient_id:
                 total_diagnostic_bill+=dia.amount
     
     grand_total=total_medicine_bill+total_diagnostic_bill
     
     if patient:
-        return render_template("patient_bill.html", total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
+        return render_template("patient_bill.html", patient_id=patient_id, total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
-        return jsonify(message="The patient does not exist"), 404
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return render_template("index")
+
+
+
+
+####################### EDIT DIAGNOSTICS ##########################
+
 
 @app.route('/edit_diagnostics')
 def edit_diagnostics():
     diagnostics = Diagnostic.query.all()
     return render_template("edit_diagnostics.html",diagnostics=diagnostics)
 
+
+@app.route('/edit_diagnostics1')
+def edit_diagnostics1():
+    return render_template("search_diagnostics1.html", flag=0)
+
+
+@app.route('/edit_diagnostics2', methods=['POST'])
+def edit_diagnostics2():
+    diagnostic_id = int(request.form['diagnostic_id'])
+    diagnostic = Diagnostic.query.filter_by(diagnostic_id=diagnostic_id).first()
+    return render_template("edit_diagnostics2.html",diagnostic=diagnostic)
+
+@app.route('/edit_diagnostics3', methods=['POST'])
+def edit_diagnostics3():
+    diagnostic_id = int(request.form['diagnostic_id'])
+    diagnostic = Diagnostic.query.filter_by(diagnostic_id=diagnostic_id).first()
+    diagnostic.name_of_the_test = request.form['name_of_the_test']
+    diagnostic.amount = int(request.form['amount'])
+    
+    db.session.commit()
+    flash("edited successfully", "success")
+    return render_template("index.html")
+
+@app.route('/delete_diagnostics1')
+def delete_diagnostics1():
+    return render_template("search_diagnostics1.html", flag=1)
+
+
+@app.route('/delete_diagnostics2', methods=['POST'])
+def delete_diagnostics2():
+    diagnostic_id = int(request.form['diagnostic_id'])
+    diagnostic = Diagnostic.query.filter_by(diagnostic_id=diagnostic_id).first()
+    db.session.delete(diagnostic)
+    db.session.commit()
+    flash("Diagnostic Test with ID "+str(diagnostic_id)+" is deleted", "success")
+    return render_template("index.html")
+
+
+
+@app.route("/add_diagnostics")
+def add_diagnostics():
+    return render_template("add_diagnostics.html")
+
+@app.route("/add_diagnostics2", methods=['POST'])
+def add_diagnostics2():
+    name_of_the_test = request.form['name_of_the_test']
+    diagnostic = Diagnostic.query.filter_by(name_of_the_test=name_of_the_test).first()
+    if diagnostic:
+        return jsonify(message="There is already a diagnostic by that name"), 409
+    else:
+        diagnostic_id = int(request.form['diagnostic_id'])
+        amount = int(request.form['amount'])
+
+        new_diagnostic = Diagnostic(diagnostic_id=diagnostic_id, name_of_the_test=name_of_the_test, amount=amount)
+
+        db.session.add(new_diagnostic)
+        db.session.commit()
+        flash("Diagnostic with diagnostic id: "+str(diagnostic_id)+" is added successfully")
+        return render_template("index.html")
+
+
+
+
+
+
+######################### EDIT MEDICINES #########################
+
+
 @app.route('/edit_medicines')
 def edit_medicines():
     medicines = Medicine.query.all()
     return render_template("edit_medicines.html",medicines=medicines)
+
+@app.route('/edit_med1')
+def edit_med1():
+    return render_template("search_med1.html", flag=0)
+
+
+@app.route('/edit_med2', methods=['POST'])
+def edit_med2():
+    medicine_id = int(request.form['medicine_id'])
+    medicine = Medicine.query.filter_by(medicine_id=medicine_id).first()
+    return render_template("edit_med2.html",medicine=medicine)
+
+@app.route('/edit_med3', methods=['POST'])
+def edit_med3():
+    medicine_id = request.form['medicine_id']
+    medicine = Medicine.query.filter_by(medicine_id=medicine_id).first()
+    medicine.medicine_name = request.form['medicine_name']
+    medicine.quantity_available = int(request.form['quantity_available'])
+    medicine.rate = int(request.form['rate'])
+    db.session.commit()
+    flash("edited successfully","success")
+    return render_template("index.html")
+
+@app.route('/delete_med1')
+def delete_med1():
+    return render_template("search_med1.html", flag=1)
+
+
+@app.route('/delete_med2', methods=['POST'])
+def delete_med2():
+    medicine_id = int(request.form['medicine_id'])
+    medicine = Medicine.query.filter_by(medicine_id=medicine_id).first()
+    db.session.delete(medicine)
+    db.session.commit()
+    flash("Medicine with ID "+str(medicine_id)+" is deleted", "success")
+    return render_template("index.html")
+
+
+
+@app.route("/add_med")
+def add_med():
+    return render_template("add_med.html")
+
+@app.route("/add_med2", methods=['POST'])
+def add_med2():
+    medicine_name = request.form['medicine_name']
+    med = Medicine.query.filter_by(medicine_name=medicine_name).first()
+    if med:
+        return jsonify(message="There is already a medicine by that name"), 409
+    else:
+        medicine_id = int(request.form['medicine_id'])
+        quantity_available = int(request.form['quantity_available'])
+        rate = int(request.form['rate'])
+
+        new_medicine = Medicine(medicine_id=medicine_id, medicine_name=medicine_name, quantity_available=quantity_available, rate=rate )
+
+        db.session.add(new_medicine)
+        db.session.commit()
+        flash("Medicine with medicine id: "+str(medicine_id)+" is added successfully")
+        return render_template("index.html")
+    
 
 
 # database models

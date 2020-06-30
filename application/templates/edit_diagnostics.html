@@ -12,12 +12,24 @@
             <tr style="text-align: center;">
                 <td>{{dia.name_of_the_test}}</td>
                 <td>{{dia.amount}} Rs.</td>
-                <td> <button type="submit" style="width:100px;">Edit</button> </td>
+                <td> 
+                  <form action="edit_diagnostics1">
+                  <button type="submit" style="width:100px;">Edit</button> 
+                </form>
+                </td>
               </tr>
             {% endfor %}  
           <tr style="text-align: center;">
-            <td><button type="submit" style="width:100px;">Add</button></td>
-            <td><button type="submit" style="width:100px; ">Delete</button></td>
+            <td>
+              <form action="add_diagnostics">
+                <button type="submit" style="width:100px;">Add</button>
+              </form>
+              </td>
+            <td>
+              <form action="delete_diagnostics1">
+              <button type="submit" style="width:100px; ">Delete</button>
+            </form>
+            </td>
           </tr>  
           </table></center> 
         </div>
