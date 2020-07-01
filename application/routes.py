@@ -166,17 +166,6 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route('/retrieve_password/<string:email>', methods=['GET'])
-def retrieve_password(email: str):
-    user = User.query.filter_by(email=email).first()
-    if user:
-        msg = Message("your patient API password is " + user.password,
-                      sender="admin@patient-api.com",
-                      recipients=[email])
-        mail.send(msg)
-        return jsonify(message="Password sent to " + email)
-    else:
-        return jsonify(message="That email doesn't exist"), 401
 
 
 
@@ -196,26 +185,21 @@ def create_patient():
 
 @app.route('/add_patient', methods=["POST"])
 def add_patient():
+    patient_id = int(random.randint(100000000,300000000))
     patient_name = request.form['patient_name']
-    test = Patient.query.filter_by(patient_name=patient_name).first()
-    if test:
-        flash('The patient '+patient_name+' with patient ID '+str(test.patient_id)+' is already registered', 'danger')
-        return render_template("index.html")
-    else:
-        patient_id = int(random.randint(10000,99999))
-        patient_age = int(request.form['patient_age'])
-        date = str(request.form['date'])
-        type_of_bed = str(request.form['type_of_bed'])
-        address =request.form['address']
-        state = str(request.form['state'])
-        city =str(request.form['city'])
+    patient_age = int(request.form['patient_age'])
+    date = str(request.form['date'])
+    type_of_bed = str(request.form['type_of_bed'])
+    address =request.form['address']
+    state = str(request.form['state'])
+    city =str(request.form['city'])
 
-        new_patient = Patient(patient_id=patient_id, patient_name=patient_name, patient_age=patient_age, date=date, type_of_bed=type_of_bed, address=address, state=state, city=city)
+    new_patient = Patient(patient_id=patient_id, patient_name=patient_name, patient_age=patient_age, date=date, type_of_bed=type_of_bed, address=address, state=state, city=city)
 
-        db.session.add(new_patient)
-        db.session.commit()
-        flash('The patient is now registered and patient ID is '+str(patient_id), 'success')
-        return render_template("index.html")
+    db.session.add(new_patient)
+    db.session.commit()
+    flash('The patient is now registered and patient ID is '+str(patient_id), 'success')
+    return render_template("index.html")
 
 
 
