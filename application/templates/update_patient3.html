@@ -14,15 +14,25 @@
                 <tr><th>Date of Admission</th> <th>:  <input type="date" name="date" value={{patient.date}}></th></tr>
                 <tr><th>Type of Bed*</th>
                 <!-- <th><input type="text" name="type_of_bed" value={{patient.type_of_bed}}></th></tr> -->
-                <th>:  <select id="type_of_bed" name="type_of_bed" required>
-                  <option value="">None</option>
+                <th>:  <select id="type_of_bed" name="type_of_bed">
+                  <option value="{{patient.type_of_bed}}">{{patient.type_of_bed}}</option>
                   <option value="General Ward">General Ward</option>
                   <option value="Semi Sharing">Semi Sharing</option>
                   <option value="Single Room">Single Room</option>
                 </th>
                 <tr><th>Address</th> <th>:  <input type="text" name="address" value={{patient.address}}></th></tr></th></tr>
-                <tr><th>State</th> <th>:  <input type="text" name="state" value={{patient.state}}></th></tr>
-                <tr><th>City</th> <th>: <input type="text" name="city" value={{patient.city}}></th></tr>
+                <tr><th>State</th> <th>:  <select id="state" name="state" >
+                  <option value="{{patient.state}}">{{patient.state}}</option>
+                  {% for state in states %}
+                  <option value="{{state}}">{{state}}</option>
+                  {% endfor %}
+                </th>
+                <tr><th>City</th> <th>: <select id="city" name="city" >
+                  <option value="{{patient.city}}">{{patient.city}}</option>
+                  {% for city in cities %}
+                  <option value="{{city}}">{{city}}</option>
+                  {% endfor %}
+                </th>
                 </table>
                 <h5>*Required</h5>
                

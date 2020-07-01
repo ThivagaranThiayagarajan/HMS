@@ -1,11 +1,18 @@
-{% extends "layout.html" %}
-{% block content %}
+<html>
+    <head>
+        <title>Medicine List</title>
+        <br/>
+        <center><h1>GetWell Hospital</h1></center>
+        <center>We care for your Wellness!!!</center>
+        <br/>
+        <center>
+        </head>
+    
+        <hr/>
+<body>
 <h1><center>Patient Bill</center></h1>
-<div class="background_table_bill">
-<div style="opacity:inherit 200%;">
-
-<table style="width:100%"; border="1">
-    <tr style="color: rgb(235, 157, 235);">
+<table style="width:100%; align-items: center;" border="1">
+    <tr>
       <th>Patient SSN ID</th>
       <th>Name</th>
       <th>Age</th>
@@ -23,18 +30,16 @@
       
     </tr>
   </table>
-</div>
-</div>
 
 
 
 
 
-<h1 style="padding: 20px; margin-top: 150px;"><center>Medicines issued</center></h1>   
-    <div class="background_table_bill1">
-    <div style="opacity:inherit 200%;">
-        <table style="width:100%"; border="1">
-            <tr style="color: rgb(235, 157, 235);">
+
+<h1><center>Medicines issued</center></h1>   
+
+        <table style="width:100%; align-items: center; text-align: center;" border="1">
+            <tr>
               <th>Medicine Name</th>
               <th>Quantity</th>
               <th>Rate</th>
@@ -58,21 +63,16 @@
             <tr>
               <td colspan="3">Bill for Pharmacy</td>
               <td>Rs {{total_medicine_bill}}</td>
-            </tr>
-                    
-                
+            </tr>      
           </table>
-        </div>
-        </div>
         <!-- <div style="text-align: center;">Bill for Pharmacy: Rs {{total_medicine_bill}}</div> -->
       
 
-<h1 style="padding: 20px;"><center>Diagnostic Bill</center></h1>
-<div class="background_table_bill2">
-<div style="opacity:inherit 200%;">
+<h1><center>Diagnostic Bill</center></h1>
+
     
-    <table style="width:100%"; border="1">
-      <tr style="color: rgb(235, 157, 235);">
+    <table style="width:100%; align-items: center; text-align: center;" border="1">
+      <tr>
         <th>Name of the Test</th>
         <th>Amount</th>
       </tr>
@@ -96,10 +96,10 @@
         
       
     </table>
-    <div style="text-align: center; font-size: 24px; padding-top: 10px;"><p>Grand Total: Rs {{grand_total}}</p></div>
-    </div>
-    </div>
-<button style="width:100px; position:relative;margin-bottom:100px;left:40%;margin-top: 10px;" onclick="window.print()">Print Bill</button>
+   <center><h1>Grand Total: Rs {{grand_total}}</h1>
+   
+<button onclick="window.print()">Print Bill</button></center>
     <!-- <div style="text-align: center;">Bill for Diagnostics: Rs {{total_diagnostic_bill}}</div> -->
 
-{% endblock %}
+  </body>
+</html>

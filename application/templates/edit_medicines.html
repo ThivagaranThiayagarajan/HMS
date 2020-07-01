@@ -8,10 +8,10 @@
               <th>Medicine ID</th>
               <th>Medicine Name</th>
               <th>Quantity Available</th>
-              <th>Rate</th>
+              <th>Rate (Rs.)</th>
             </tr>
             {% for med in medicines %}
-            <tr style="text-align: center;">
+            <!-- <tr style="text-align: center;">
                 <td>{{med.medicine_id}}</td>
                 <td>{{med.medicine_name}}</td>
                 <td>{{med.quantity_available}}</td>
@@ -21,20 +21,40 @@
                     <button type="submit" style="width:100px;">Edit</button> 
                   </form>
                 </td>
-            </tr>
+            </tr> -->
+            <form action="edit_med3/{{med.medicine_id}}" method="POST">
+            <tr style="text-align: center;">
+              <td><input type="text" name="medicine_id" value={{med.medicine_id}}></td>
+              <td><input type="text" name="medicine_name" value={{med.medicine_name}}></td>
+              <td> <input type="text" name="quantity_available" value={{med.quantity_available}}></td>
+              <td><input type="text" name="rate" value={{med.rate}}></td>
+              <td> 
+                
+                  <button type="submit" style="width:100px;">Edit</button> 
+                
+              </td>
+          </tr>
+          </form>
             {% endfor %}
+            <form action="add_med2" method="POST">
             <tr  style="text-align: center;">
-            <td colspan='2'>
-              <form action="add_med">
-                <button type="submit" style="width:100px;">Add</button>
-              </form>
-            </td>
-            <td colspan='2'>
-              <form action="delete_med1">
-                <button type="submit" style="width:100px; ">Delete</button>
-              </form>
-            </td>
+              <td><input type="text" name="medicine_id" ></td>
+              <td><input type="text" name="medicine_name"></td>
+              <td><input type="text" name="quantity_available"></td>
+              <td><input type="text" name="rate"></td>
+              <td>
+                <button type="submit" style="width:100px;">Add</button>  
+              </td>
             </tr>
+          </form>
+          <tr  style="text-align: center;"></tr>
+          <form action="delete_med2" method="POST">
+            <td colspan='2'><input type="text" name="medicine_id"></td>
+            <td colspan='2'>
+                <button type="submit" style="width:100px; ">Delete</button> 
+            </td>
+          </form>
+          </tr>
             </table>
           </div>
         </div>

@@ -3,7 +3,7 @@
 {% block content %}
 <script>
 function message() {
-  confirm("Delete this person for sure?");
+  var result = confirm("Delete this person for sure?");
 }
 </script>
         <center><h1>Delete Patient</h1></center>
@@ -18,7 +18,6 @@ function message() {
                 <h5>*Required</h5>
                 <button type="submit" onclick="message()" formaction="delete_patient2">Delete</button>
                 </center>
-
             </form>
         </div>
 {% endblock %}  

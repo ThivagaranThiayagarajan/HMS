@@ -99,7 +99,7 @@
     <div style="text-align: center; font-size: 24px; padding-top: 10px;"><p>Grand Total: Rs {{grand_total}}</p></div>
     </div>
     </div>
-<button style="width:100px; position:relative;margin-bottom:100px;left:40%;margin-top: 10px;" onclick="window.print()">Print Bill</button>
+   <form action="print_bill/{{patient.patient_id}}" method="POST"><button type="submit"  name="patient_id" style="width:100px; position:relative;margin-bottom:100px;left:40%;margin-top: 10px;" >Get Bill</button></form>
     <!-- <div style="text-align: center;">Bill for Diagnostics: Rs {{total_diagnostic_bill}}</div> -->
 
 {% endblock %}
