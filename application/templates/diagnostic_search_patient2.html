@@ -27,10 +27,10 @@
 
 
 
-<center><button type="submit" style="width:100px; position:relative;left:0%;margin:170px 50px 0px;">Get Details</button></center>
+<!-- <center><button type="submit" style="width:100px; position:relative;left:0%;margin:170px 50px 0px;">Get Details</button></center> -->
 
 
-<h1 style="padding: 20px;">Diagnostic to be conducted</h1>
+<h1 style="padding: 20px; margin:170px 50px 0px;">Diagnostic Prescribed</h1>
 <div class="background_table_bill1">
     <div style="opacity:inherit 200%;">
     
@@ -56,7 +56,7 @@
     </div>
     
     <!-- <div style="text-align: center;"> -->
-    <form action="get_diagnostic_count" method="POST">
+    <form action="get_diagnostic_count/{{patient_id}}" method="POST">
       <!-- Patient ID: <input type="text" name="patient_id" style="width:100px" value={{patient.patient_id}}> -->
       <table style="width:100%;text-align: center;">
         <tr>
@@ -68,6 +68,9 @@
           </th>
         </tr>
       </table>
-    <button name="add_button" type="submit" value="patien_id">Add</button>
+      <button type="submit" formaction="get_diagnostic_count/{{patient_id}}" name="patient_id" style="width:100px; position:relative;margin-bottom:100px;left:40%;margin-top: 10px;" >Add</button>
+      </form>
+    <!-- <button name=patient_id value="{{patient_id}}"type="submit" formaction="get_diagnostic_count">Add</button> -->
+   
   <!-- </div> -->
   {% endblock %}

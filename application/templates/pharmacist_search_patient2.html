@@ -29,10 +29,10 @@
 
 
 
-<center><button type="submit" style="width:100px; position:relative;left:0%;margin:170px 50px 0px;">Get Details</button></center>
+<!-- <center><button type="submit" style="width:100px; position:relative;left:0%;margin:170px 50px 0px;">Get Details</button></center> -->
 
 
-<h1 style="padding: 20px;">Medicines to be issued</h1>
+<h1 style="padding: 20px; margin:170px 50px 0px;">Medicines Prescribed</h1>
 <div class="background_table_bill1">
     <div style="opacity:inherit 200%;">
    
@@ -52,8 +52,8 @@
                 <tr style="text-align: center;">
                   <td>{{med.medicine_name}}</td>
                   <td>{{mp.quantity_issued}}</td>
-                  <td>{{med.rate}}</td>
-                  <td>{{mp.quantity_issued*med.rate}}</td>
+                  <td>{{med.rate}} Rs.</td>
+                  <td>{{mp.quantity_issued*med.rate}} Rs.</td>
                 </tr>
             {% endif %}
           {% endfor %}
@@ -64,8 +64,25 @@
     <br><br><br>
     <div style="text-align: center;">
     <form action="get_med_count" method="POST">
-      Patient ID: <input type="text" name="patient_id" style="width:100px" value={{patient.patient_id}}>
-    Count: <input type="text" style="width:100px" name="count"><br><br>
-    <button type="submit">Issue medicines</button>
+      <table style="width:100%;text-align: center; margin-bottom: 100px;">
+        <tr>
+          <th>Add Medicine</th> 
+          <th><select id="medicine_name" name="medicine_name" style="width:100px">
+            <option value="">None</option>
+            {% for medicine in medicine_list %}
+            <option value="{{medicine.medicine_name}}">{{medicine.medicine_name}}</option>
+            {% endfor %}
+          </th>
+          <th>
+            <input type="text" name="quantity_issued" style="width:100px">
+          </th>
+        </tr>
+        <tr>
+          <th colspan=4 ><button type="submit" formaction="get_med_count/{{patient_id}}" name="patient_id" style="width:100px;" >Add</button></th>
+        </tr>
+        
+      </table>
+      
+    </form>
   </div>
   {% endblock %}
