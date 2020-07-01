@@ -260,18 +260,18 @@ def update_patient3():
 def delete_patient():
     return render_template("search_patient.html",page_value="Delete Patient",button_value="Delete")
 
-@app.route('/delete_patient2', methods=['POST'])
-def delete_patient2():
-    patient_id=int(request.form['patient_id'])
+@app.route('/delete_patient2/<int:patient_id>', methods=['POST'])
+def delete_patient2(patient_id:int):
+    # patient_id=int(request.form['patient_id'])
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
     if patient:
         db.session.delete(patient)
         db.session.commit()
         flash("You deleted the patient successfully!!")
-        return render_template("index")
+        return redirect(url_for("home"))
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index")
+        return redirect(url_for("home"))
 
 
 
@@ -282,7 +282,7 @@ def view_patient_screen():
         return render_template("view_patient_screen.html", patient=patient)
     else:
         flash("There is no patient in the database","danger")
-        return render_template("index")
+        return redirect(url_for("home"))
 
 
 
