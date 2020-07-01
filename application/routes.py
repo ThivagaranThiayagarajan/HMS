@@ -248,14 +248,26 @@ def delete_patient():
 def delete_patient2():
     patient_id=int(request.form['patient_id'])
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
+    
     if patient:
         db.session.delete(patient)
         db.session.commit()
+        pm = Patient_Medicine.query.all()
+        for pmed in pm:
+            if pmed.patient_id==patient_id:
+                db.session.delete(pmed)
+                db.session.commit()
+    
+        pd = PatientDiagnostic.query.all()
+        for pdia in pd:
+            if pdia.patient_id==patient_id:
+                db.session.delete(pdia)
+                db.session.commit()
         flash("You deleted the patient successfully!!")
-        return render_template("index")
+        return render_template("index.html")
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index")
+        return render_template("index.html")
 
 
 
@@ -266,7 +278,7 @@ def view_patient_screen():
         return render_template("view_patient_screen.html", patient=patient)
     else:
         flash("There is no patient in the database","danger")
-        return render_template("index")
+        return render_template("index.html")
 
 
 
@@ -284,7 +296,7 @@ def display_patient():
         return render_template("display_patient.html", patient=patient,page_value=page_value,patient_id=patient_id)
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index")
+        return render_template("index.html")
 
 ##################__MEDICINE__#########################
 
@@ -306,7 +318,8 @@ def pharmacist_search_patient2():
     if patient:
         return render_template("pharmacist_search_patient2.html", patient_id=patient_id, patient=patient, medicine_list=medicine_list, medicine_issued_for_patient=medicine_issued_for_patient)
     else:
-        return jsonify(message="The patient does not exist"), 404
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return redirect(url_for("home"))
 
 
 @app.route('/get_med_count/<int:patient_id>', methods=['POST'])
@@ -369,7 +382,7 @@ def pharmacist_search_patient_bill4():
         return render_template("pharmacist_search_patient_bill4.html", patient_id=patient_id, patient=patient, medicine_list=medicine_list, medicine_issued_for_patient=medicine_issued_for_patient)
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index")
+        return render_template("index.html")
 
 
 
@@ -592,7 +605,8 @@ def add_diagnostics2():
     name_of_the_test = request.form['name_of_the_test']
     diagnostic = Diagnostic.query.filter_by(name_of_the_test=name_of_the_test).first()
     if diagnostic:
-        return jsonify(message="There is already a diagnostic by that name"), 409
+        flash("There is already a diagnostic by that name", "success")
+        return render_template("index.html")
     else:
         diagnostic_id = int(request.form['diagnostic_id'])
         amount = int(request.form['amount'])
@@ -663,7 +677,8 @@ def add_med2():
     medicine_name = request.form['medicine_name']
     med = Medicine.query.filter_by(medicine_name=medicine_name).first()
     if med:
-        return jsonify(message="There is already a medicine by that name"), 409
+        flash("There is already a medicine by that name", "success")
+        return render_template("index.html")
     else:
         medicine_id = int(request.form['medicine_id'])
         quantity_available = int(request.form['quantity_available'])
