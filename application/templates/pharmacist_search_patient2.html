@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+
 <h1>Pharmacy</h1>
 <div class="background_table_bill">
 <div style="opacity:inherit 200%;">
@@ -67,14 +68,17 @@
       <table style="width:100%;text-align: center; margin-bottom: 100px;">
         <tr>
           <th>Add Medicine</th> 
-          <th><select id="medicine_name" name="medicine_name" style="width:100px">
+          <th><select id="medicine_name" name="medicine_name" style="width:100px" required>
             <option value="">None</option>
             {% for medicine in medicine_list %}
             <option value="{{medicine.medicine_name}}">{{medicine.medicine_name}}</option>
             {% endfor %}
           </th>
           <th>
-            <input type="text" name="quantity_issued" style="width:100px">
+            Quantity
+          </th>
+          <th>
+            <input type="number" name="quantity_issued" style="width:100px" required>
           </th>
         </tr>
         <tr>

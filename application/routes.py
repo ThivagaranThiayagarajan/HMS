@@ -199,7 +199,7 @@ def add_patient():
     db.session.add(new_patient)
     db.session.commit()
     flash('The patient is now registered and patient ID is '+str(patient_id), 'success')
-    return render_template("index.html")
+    return redirect(url_for("home"))
 
 
 
@@ -218,7 +218,7 @@ def update_patient2():
         return render_template("update_patient3.html", patient=patient,states=states,cities=cities)
     else:
         flash("alert(No patient under the given ID)")
-        return render_template("update_patient.html")
+        return redirect(url_for("home"))
 
 @app.route('/update_patient3', methods=['POST'])
 def update_patient3():
