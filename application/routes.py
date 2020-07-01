@@ -166,6 +166,18 @@ def logout():
     return redirect(url_for("login"))
 
 
+@app.route('/retrieve_password/<string:email>', methods=['GET'])
+def retrieve_password(email: str):
+    user = User.query.filter_by(email=email).first()
+    if user:
+        msg = Message("your patient API password is " + user.password,
+                      sender="admin@patient-api.com",
+                      recipients=[email])
+        mail.send(msg)
+        return jsonify(message="Password sent to " + email)
+    else:
+        return jsonify(message="That email doesn't exist"), 401
+
 
 
 @app.route('/patient_details/<int:patient_id>')
@@ -190,7 +202,7 @@ def add_patient():
         flash('The patient '+patient_name+' with patient ID '+str(test.patient_id)+' is already registered', 'danger')
         return render_template("index.html")
     else:
-        patient_id = int(random.randint(200000000,499999999))
+        patient_id = int(random.randint(10000,99999))
         patient_age = int(request.form['patient_age'])
         date = str(request.form['date'])
         type_of_bed = str(request.form['type_of_bed'])
@@ -259,7 +271,7 @@ def delete_patient2():
         return render_template("index")
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index.html")
+        return render_template("index")
 
 
 
@@ -313,143 +325,46 @@ def pharmacist_search_patient2():
         return jsonify(message="The patient does not exist"), 404
 
 
-<<<<<<< HEAD
-@app.route('/get_med_count', methods=['POST'])
-def get_med_count():
-    patient_id = int(request.form['patient_id'])
-    p = Patient.query.filter_by(patient_id=patient_id).first()
-    if p:
-        count=int(request.form['count'])
-        return render_template("get_med_details.html", count=count, patient_id=patient_id)
-    else:
-        flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index")
-
-
-@app.route('/issue_medicine', methods=['POST'])
-def issue_medicine():
-    patient_id = int(request.form['patient_id'])
-    p = Patient.query.filter_by(patient_id=patient_id).first()
-    count = int(request.form['count'])
-    print(count)
-    medicine_name_list=[]
-    quantity_list=[]
-    if p:
-        for i in range(count):
-            medicine_name_list.append(request.form['medicine_name'+str(i)])
-            quantity_list.append(int(request.form['quantity'+str(i)]))
-        medicines = Medicine.query.all()
-        patient_medicines = Patient_Medicine.query.all()
-    
-        for i in range(count):
-            mn = Medicine.query.filter_by(medicine_name=medicine_name_list[i]).first()
-            if mn and mn.quantity_available>=quantity_list[i]:
-                mn.quantity_available-=quantity_list[i]
-                db.session.commit()
-
-                pm = Patient_Medicine.query.filter_by(patient_id=patient_id).first()
-                if pm:
-                    med = Patient_Medicine.query.filter_by(medicine_id=mn.medicine_id).first()
-                    if med:
-                        med.quantity_issued+=quantity_list[i]
-                        db.session.commit()
-                    else:
-                        print("new medicine.... old patient")
-                        print(mn.medicine_id, pm.medicine_id)
-                        patient_medicine1 = Patient_Medicine(pm_id=int(random.randint(400000000,599999999)), patient_id=pm.patient_id,
-                                                medicine_id=mn.medicine_id,
-                                                quantity_issued=quantity_list[i])
-                        db.session.add(patient_medicine1)
-                        db.session.commit()
-                else:
-                    print(patient_id, pm.patient_id, mn.medicine_id)
-                    patient_medicine1 = Patient_Medicine(pm_id=int(random.randint(400000000,599999999)), patient_id=patient_id,
-                                                medicine_id=mn.medicine_id,
-                                                quantity_issued=quantity_list[i])
-                    db.session.add(patient_medicine1)
-                    db.session.commit()
-    else:
-        flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index")
-    return render_template("issue_medicines.html", medicines=medicines, medicine_name_list=medicine_name_list, quantity_list=quantity_list)
-=======
 @app.route('/get_med_count/<int:patient_id>', methods=['POST'])
 def get_med_count(patient_id:int):
-    # patient_id = int(request.form['patient_id'])
-    # p = Patient.query.filter_by(patient_id=patient_id).first()
-    patient =  Patient.query.filter_by(patient_id=patient_id).first()
-    medicine_issued_for_patient = Patient_Medicine.query.all()
-    medicine_list = Medicine.query.all()
-    patient_medicine=Patient_Medicine()
-    qty_issued=int(request.form['quantity_issued'])
-    medicine_name=request.form['medicine_name'] 
-    med_id=Medicine.query.filter_by(medicine_name=medicine_name).first()
-    medicineissued =  Patient_Medicine(patient_id=patient_id,medicine_id=med_id.medicine_id,quantity_issued=qty_issued) 
-    db.session.add(medicineissued)
-    db.session.commit()
-    flash("Added to "+str(patient_id),",OK")
-    return redirect(url_for("home"))
+    flag=0
+    p = Patient.query.filter_by(patient_id=patient_id).first()
+    if p:
+        qty_issued=int(request.form['quantity_issued'])
+        medicine_name=str(request.form['medicine_name'])
+        medicines = Medicine.query.all()
+        patient_medicines = Patient_Medicine.query.all()
 
+        mn = Medicine.query.filter_by(medicine_name=medicine_name).first()
+        if mn and mn.quantity_available>=qty_issued:
+            print("medicine available")
+            print(mn.quantity_available)
+            mn.quantity_available-=qty_issued
+            print(mn.quantity_available)
+            db.session.commit()
 
-# @app.route('/issue_medicine', methods=['POST'])
-# def issue_medicine():
-#     patient_id = int(request.form['patient_id'])
-#     p = Patient.query.filter_by(patient_id=patient_id).first()
-#     count = int(request.form['count'])
-#     print(count)
-#     medicine_name_list=[]
-#     quantity_list=[]
-#     if p:
-#         for i in range(count):
-#             medicine_name_list.append(request.form['medicine_name'+str(i)])
-#             quantity_list.append(int(request.form['quantity'+str(i)]))
-#         medicines = Medicine.query.all()
-#         patient_medicines = Patient_Medicine.query.all()
-#         count2=len(patient_medicines)
-    
-#         for i in range(count):
-#             mn = Medicine.query.filter_by(medicine_name=medicine_name_list[i]).first()
-#             if mn and mn.quantity_available>=quantity_list[i]:
-#                 print(mn.medicine_name)
-#                 print(mn.quantity_available)
-#                 mn.quantity_available-=quantity_list[i]
-#                 print(mn.quantity_available)
-#                 db.session.commit()
+            pm = Patient_Medicine.query.all()
+            for pmed in pm:
+                if pmed.patient_id==patient_id and pmed.medicine_id==mn.medicine_id:
+                    flag=1
+                    print("old patient... old medicine") 
+                    print(pmed.quantity_issued)
+                    pmed.quantity_issued+=qty_issued
+                    print(pmed.quantity_issued)
+                    db.session.commit()
+                    break
+            if(flag==0):
+                print("new medicine")
+                patient_medicine1 = Patient_Medicine(pm_id=int(random.randint(600000000,999999999)), patient_id=patient_id,
+                                                  medicine_id=mn.medicine_id,
+                                                 quantity_issued=qty_issued)
+                db.session.add(patient_medicine1)
+                db.session.commit()
+        return redirect(url_for("home"))
+    else:
+        flash("There is no patient with the given ID "+str(patient_id),"danger")
+        return redirect(url_for("home"))
 
-#                 pm = Patient_Medicine.query.filter_by(patient_id=patient_id).first()
-#                 if pm:
-#                     print(patient_id, pm.patient_id)
-#                     med = Patient_Medicine.query.filter_by(medicine_id=mn.medicine_id).first()
-#                     if med:
-#                         print(mn.medicine_id, pm.medicine_id)
-#                         print("patient and medicine already exist")
-#                         med.quantity_issued+=quantity_list[i]
-#                         db.session.commit()
-#                     else:
-#                         print("new medicine.... old patient")
-#                         print(mn.medicine_id, pm.medicine_id)
-#                         patient_medicine1 = Patient_Medicine(pm_id=count2+1, patient_id=pm.patient_id,
-#                                                 medicine_id=mn.medicine_id,
-#                                                 quantity_issued=quantity_list[i])
-#                         db.session.add(patient_medicine1)
-#                         count2=count2+1
-#                         db.session.commit()
-#                 else:
-#                     print(patient_id, pm.patient_id, mn.medicine_id)
-#                     print("###################")
-#                     print("new patient... new medicine")
-#                     patient_medicine1 = Patient_Medicine(pm_id=count2+1, patient_id=patient_id,
-#                                                 medicine_id=mn.medicine_id,
-#                                                 quantity_issued=quantity_list[i])
-#                     db.session.add(patient_medicine1)
-#                     db.session.commit()
-#                     count2=count2+1
-#             print("********************")
-#     else:
-#         flash("There is no patient with the given ID "+str(patient_id),"danger")
-#         return render_template("index")
-#     return render_template("issue_medicines.html", medicines=medicines, medicine_name_list=medicine_name_list, quantity_list=quantity_list)
->>>>>>> 69b53808d4a0be35c2c17aaa5f980762b7bd097a
 
 
 
@@ -504,131 +419,36 @@ def diagnostic_search_patient2():
 
 @app.route('/get_diagnostic_count/<int:patient_id>', methods=['POST'])
 def get_diagnostic_count(patient_id:int):
-    # patient_id = int(request.form['patient_id'])
-    patient = Patient.query.filter_by(patient_id=patient_id).first()
-    diagnostic_for_patient = PatientDiagnostic.query.all()
-    diagnostic_list = Diagnostic.query.all()
-    # print("Patient",p)
-
-    name_of_the_test=request.form['name_of_the_test']
-    print(name_of_the_test)
-    d_id=Diagnostic.query.filter_by(name_of_the_test=name_of_the_test).first()
-    print(d_id)
-    patient_diagnostic=PatientDiagnostic(patient_id=patient_id, diagnostic_id=d_id.diagnostic_id)
-
-<<<<<<< HEAD
-@app.route('/issue_diagnostic', methods=['POST'])
-def issue_diagnostic():
-    patient_id = int(request.form['patient_id'])
+    flag=0
     p = Patient.query.filter_by(patient_id=patient_id).first()
-    count = int(request.form['count'])
-    test_name_list=[]
-    test_to_be_conducted=[]
-    amount_list=[]
     if p:
-        for i in range(count):
-            test_name_list.append(request.form['name_of_the_test'+str(i)])
-            amount_list.append(int(request.form['amount'+str(i)]))
+        name_of_the_test=request.form['name_of_the_test']
         diagnostics = Diagnostic.query.all()
         patient_diagnostic = PatientDiagnostic.query.all()
-    
-        for i in range(count):
-            dn = Diagnostic.query.filter_by(name_of_the_test=test_name_list[i]).first()
-            if dn:
+            
+            
+        dn = Diagnostic.query.filter_by(name_of_the_test=name_of_the_test).first()
+        if dn:
+            pd = PatientDiagnostic.query.all()
+            for pdia in pd:
+                if pdia.patient_id==patient_id and pdia.diagnostic_id==dn.diagnostic_id:
+                    flag=1
+                    print(pdia.patient_id, patient_id)
+                    print(pdia.diagnostic_id,dn.diagnostic_id)
+                    print("Diagnosis already conducted....")
+                    break
+            if(flag==0):
+                print("new diagnostics")
+                patient_diagnostic1 = PatientDiagnostic(pd_id=int(random.randint(400000000,599999999)), patient_id=patient_id,
+                                                diagnostic_id=dn.diagnostic_id)
+                db.session.add(patient_diagnostic1)
                 db.session.commit()
-
-                pd = PatientDiagnostic.query.filter_by(patient_id=patient_id).first()
-                if pd:
-                    dia = PatientDiagnostic.query.filter_by(diagnostic_id=dn.diagnostic_id).first()
-                    if dia:
-                        db.session.commit()
-                    else:
-                        test_to_be_conducted.append(dn.name_of_the_test)
-                        patient_diagnostic1 = PatientDiagnostic(pd_id=int(random.randint(60000000,99999999)), patient_id=pd.patient_id,
-                                                diagnostic_id=dn.diagnostic_id)
-                        db.session.add(patient_diagnostic1)
-                        db.session.commit()
-                else:
-                    test_to_be_conducted.append(dn.name_of_the_test)
-                    patient_diagnostic1 = PatientDiagnostic(pd_id=int(random.randint(60000000,99999999)), patient_id=patient_id,
-                                                diagnostic_id=dn.diagnostic_id)
-                    db.session.add(patient_diagnostic1)
-                    db.session.commit()
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index")
-    print(test_to_be_conducted)
-    return render_template("issue_diagnostic.html", diagnostics=diagnostics, test_to_be_conducted=test_to_be_conducted, amount_list=amount_list)
-=======
-    db.session.add(patient_diagnostic)
-    db.session.commit()
-    flash("Diagnostic added "+str(patient_id),"OK")
+        return redirect(url_for("home"))
     return redirect(url_for("home"))
-    # return render_template("diagnostic_search_patient2.html", patient_id=patient_id, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
-    # return redirect(url_for("diagnostic_search_patient2"))
-    
-  
 
 
-# @app.route('/issue_diagnostic', methods=['POST'])
-# def issue_diagnostic():
-#     patient_id = int(request.form['patient_id'])
-#     p = Patient.query.filter_by(patient_id=patient_id).first()
-#     count = int(request.form['count'])
-#     print(count)
-#     test_name_list=[]
-#     test_to_be_conducted=[]
-#     amount_list=[]
-#     if p:
-#         for i in range(count):
-#             test_name_list.append(request.form['name_of_the_test'+str(i)])
-#             amount_list.append(int(request.form['amount'+str(i)]))
-#         diagnostics = Diagnostic.query.all()
-#         patient_diagnostic = PatientDiagnostic.query.all()
-#         count2=len(patient_diagnostic)
-    
-#         for i in range(count):
-#             dn = Diagnostic.query.filter_by(name_of_the_test=test_name_list[i]).first()
-#             if dn:
-#                 print(dn.name_of_the_test)
-#                 print(dn.amount)
-#                 db.session.commit()
-
-#                 pd = PatientDiagnostic.query.filter_by(patient_id=patient_id).first()
-#                 if pd:
-#                     print(patient_id, pd.patient_id)
-#                     dia = PatientDiagnostic.query.filter_by(diagnostic_id=dn.diagnostic_id).first()
-#                     if dia:
-#                         print(dn.diagnostic_id, pd.diagnostic_id)
-#                         print("Diagnosis already conducted....")
-#                         db.session.commit()
-#                     else:
-#                         print("Diagnosis has to be conducted")
-#                         print(dn.diagnostic_id, pd.diagnostic_id)
-#                         test_to_be_conducted.append(dn.name_of_the_test)
-#                         print(test_to_be_conducted)
-#                         patient_diagnostic1 = PatientDiagnostic(pd_id=count2+1, patient_id=pd.patient_id,
-#                                                 diagnostic_id=dn.diagnostic_id)
-#                         db.session.add(patient_diagnostic1)
-#                         count2=count2+1
-#                         db.session.commit()
-#                 else:
-#                     print(patient_id, pd.patient_id, dn.diagnostic_id)
-#                     print("###################")
-#                     print("new patient... new Diagnostic")
-#                     test_to_be_conducted.append(dn.name_of_the_test)
-#                     patient_diagnostic1 = PatientDiagnostic(pd_id=count2+1, patient_id=patient_id,
-#                                                 diagnostic_id=dn.diagnostic_id)
-#                     db.session.add(patient_diagnostic1)
-#                     db.session.commit()
-#                     count2=count2+1
-#             print("********************")
-#     else:
-#         flash("There is no patient with the given ID "+str(patient_id),"danger")
-#         return render_template("index")
-#     print(test_to_be_conducted)
-#     return render_template("issue_diagnostic.html", diagnostics=diagnostics, test_to_be_conducted=test_to_be_conducted, amount_list=amount_list)
->>>>>>> 69b53808d4a0be35c2c17aaa5f980762b7bd097a
 
 
 @app.route("/diagnostic_list")
@@ -970,4 +790,3 @@ patients_diagnosticSchema = PatientDiagnosticSchema(many=True)
 
 if __name__ == '__main__':
     app.run()
-
