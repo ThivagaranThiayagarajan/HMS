@@ -154,9 +154,11 @@ def logincheck():
 
     test = User.query.filter_by(email=email, password=password).first()
     if test:
+        session['username']=email
         access_token = create_access_token(identity=email)
         # jsonify(message="Login succeeded!", access_token=access_token)
-        return render_template("index.html")
+        #return render_template("index.html")
+        return redirect(url_for('home'))
     else:
         return jsonify(message="Bad email or password"), 401
 
