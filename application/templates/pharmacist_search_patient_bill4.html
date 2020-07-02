@@ -19,7 +19,6 @@
       <td>{{patient.address}}</td>
       <td>{{patient.date}}</td>
       <td>{{patient.type_of_bed}}</td>
-      
     </tr>
   </table>
 </div>
@@ -48,13 +47,16 @@
                 <tr style="text-align: center;">
                   <td>{{med.medicine_name}}</td>
                   <td>{{mp.quantity_issued}}</td>
-                  <td>{{med.rate}}</td>
+                  <td>{{med.rate}} Rs.</td>
                   <td>{{mp.quantity_issued*med.rate}} Rs.</td>
+                  
                 </tr>
             {% endif %}
           {% endfor %}
         {% endfor %}
       </table>
+      
     </div>
     </div>
+    
 {% endblock %}
