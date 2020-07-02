@@ -7,27 +7,27 @@
               <div class="background_editpat">
                 <center>
                 <table>
-                <tr><th>Patient SSN ID*</th> <th>: <input type="text" name="patient_id" value={{patient.patient_id}}></th>
+                <tr><th>Patient SSN ID*</th> <th>: <input type="number" name="patient_id" value={{patient.patient_id}} required></th>
                 <th><button type="submit" formaction="update_patient2">Get</button></th></tr>
-                <tr><th>Patient Name</th> <th>: <input type="text" name="patient_name" value={{patient.patient_name}}></th></tr>
-                <tr><th>Patient Age</th> <th>:  <input type="text" name="patient_age" value={{patient.patient_age}}></th></tr>
-                <tr><th>Date of Admission</th> <th>:  <input type="date" name="date" value={{patient.date}}></th></tr>
+                <tr><th>Patient Name</th> <th>: <input type="text" name="patient_name" value={{patient.patient_name}} required></th></tr>
+                <tr><th>Patient Age</th> <th>:  <input type="number" name="patient_age" value={{patient.patient_age}} required></th></tr>
+                <tr><th>Date of Admission</th> <th>:  <input type="date" name="date" value={{patient.date}} required></th></tr>
                 <tr><th>Type of Bed*</th>
                 <!-- <th><input type="text" name="type_of_bed" value={{patient.type_of_bed}}></th></tr> -->
-                <th>:  <select id="type_of_bed" name="type_of_bed">
+                <th>:  <select id="type_of_bed" name="type_of_bed" required>
                   <option value="{{patient.type_of_bed}}">{{patient.type_of_bed}}</option>
                   <option value="General Ward">General Ward</option>
                   <option value="Semi Sharing">Semi Sharing</option>
                   <option value="Single Room">Single Room</option>
                 </th>
-                <tr><th>Address</th> <th>:  <input type="text" name="address" value={{patient.address}}></th></tr></th></tr>
-                <tr><th>State</th> <th>:  <select id="state" name="state" >
+                <tr><th>Address</th> <th>:  <input type="text" name="address" value="{{patient.address}}" required></th></tr></th></tr>
+                <tr><th>State</th> <th>:  <select id="state" name="state" required>
                   <option value="{{patient.state}}">{{patient.state}}</option>
                   {% for state in states %}
                   <option value="{{state}}">{{state}}</option>
                   {% endfor %}
                 </th>
-                <tr><th>City</th> <th>: <select id="city" name="city" >
+                <tr><th>City</th> <th>: <select id="city" name="city" required>
                   <option value="{{patient.city}}">{{patient.city}}</option>
                   {% for city in cities %}
                   <option value="{{city}}">{{city}}</option>

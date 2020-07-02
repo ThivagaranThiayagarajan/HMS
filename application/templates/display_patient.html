@@ -6,11 +6,11 @@
               <div class="background">
                 <form method="POST">
                   <table>
-                  {% if 'Patient Search'== page_value %}
+                  <!-- {% if 'Patient Search'== page_value %} -->
                     <tr><th>Patient SSN ID</th> <th>: {{patient.patient_id}}</th></tr>
-                  {% elif 'Delete Patient'== page_value %}
-                  <tr><th>Patient SSN ID</th> <th>: <input type="text" name="patient_id" value="{{patient.patient_id}}"></th></tr>
-                  {% endif %}
+                  <!-- {% elif 'Delete Patient'== page_value %} -->
+                  <!-- <tr><th>Patient SSN ID</th> <th>: <input type="text" name="patient_id" value="{{patient.patient_id}}"></th></tr> -->
+                  <!-- {% endif %} -->
                   
                   <tr><th>Patient Name</th> <th>: {{patient.patient_name}}</th></tr>
                   <tr><th>Patient Age</th> <th>:  {{patient.patient_age}}</th></tr>
@@ -22,10 +22,9 @@
                   </table>
                 
                   {% if 'Patient Search'== page_value %}
-                    <button type="submit" formaction="">View Patient Bill</button>
-                    <button type="submit" formaction="">View Patient History</button>
+                    <button type="submit" formaction="print_bill/{{patient.patient_id}}">View Patient Bill</button>
                   {% elif 'Delete Patient'== page_value %}
-                    <button type="submit" formaction="delete_patient2" >Confirm Delete Patient</button>
+                    <button type="submit" formaction="delete_patient2/{{patient.patient_id}}" >Confirm Delete Patient</button>
                   {% endif %}
                 </form>
               </div>

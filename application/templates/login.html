@@ -21,13 +21,13 @@
     <div class="textbox">
       <i class="fas fa-user"></i>
       
-      <input type="text" placeholder="Username" name="email">
+      <input type="text" placeholder="Username" name="email" required>
     </div>
 
     <div class="textbox">
       <i class="fas fa-lock"></i>
      
-      <input type="password" placeholder="Password" name="password">
+      <input type="password" placeholder="Password" name="password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
     </div>
 
     <input type="submit" class="btn" value="Sign in">

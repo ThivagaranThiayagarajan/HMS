@@ -17,7 +17,7 @@ mail = Mail(app)
 
 # print("begin here")
 
-
+##########################_adding file to have cities and states dropdown_##############################################
 with open('application/cities.json', 'r') as cities:
     city = json.load(cities)
 states=[]
@@ -31,9 +31,8 @@ for i in city:
     j=j+1
 
 states = list( dict.fromkeys(states) )        
-# print (states)
-# print ("End of states...")
-# print (cities)
+
+#####################################_DataBase seeding operations_#######################################
 
 @app.cli.command('db_create')
 def db_create():
@@ -110,7 +109,9 @@ def db_seed():
     
     
 
+#################################_routes begin_#######################################
 
+###############################_for home and login_###################################
 @app.route('/')
 @app.route('/login')
 def login():
@@ -168,18 +169,12 @@ def logout():
     return redirect(url_for("login"))
 
 
+################################_routes of home and login ends_##########################
+
+##############################_routes for patient add, delete, and edit_####################
 
 
-
-@app.route('/patient_details/<int:patient_id>')
-def patient_details(patient_id:int):
-    patient = Patient.query.filter_by(patient_id=patient_id).first()
-    if patient:
-        result = patient_schema.dump(patient)
-        return jsonify(result)
-    else:
-        return jsonify(message="That patient does not exist"), 404
-
+#####_Adding Patient_######
 
 @app.route('/create_patient')
 def create_patient():
@@ -201,10 +196,11 @@ def add_patient():
     db.session.add(new_patient)
     db.session.commit()
     flash('The patient is now registered and patient ID is '+str(patient_id), 'success')
-    return render_template("index.html")
+    return redirect(url_for("home"))
 
 
 
+#####_Edit Patient_#####
 
 @app.route('/update_patient')
 def update_patient():
@@ -220,7 +216,8 @@ def update_patient2():
         return render_template("update_patient3.html", patient=patient,states=states,cities=cities)
     else:
         flash("alert(No patient under the given ID)")
-        return render_template("update_patient.html")
+        return redirect(url_for("home"))
+
 
 @app.route('/update_patient3', methods=['POST'])
 def update_patient3():
@@ -240,15 +237,16 @@ def update_patient3():
     
 
 
-
+#####_Delete Patient_#######
 
 @app.route('/delete_patient')
 def delete_patient():
     return render_template("search_patient.html",page_value="Delete Patient",button_value="Delete")
 
-@app.route('/delete_patient2', methods=['POST'])
-def delete_patient2():
-    patient_id=int(request.form['patient_id'])
+
+@app.route('/delete_patient2/<int:patient_id>', methods=['POST'])
+def delete_patient2(patient_id:int):
+    # patient_id=int(request.form['patient_id'])
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
     
     if patient:
@@ -266,12 +264,13 @@ def delete_patient2():
                 db.session.delete(pdia)
                 db.session.commit()
         flash("You deleted the patient successfully!!")
-        return render_template("index.html")
+        return redirect(url_for("home"))
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index.html")
+        return redirect(url_for("home"))
 
 
+######_view and search patient_#########
 
 @app.route('/view_patient_screen')
 def view_patient_screen():
@@ -280,13 +279,13 @@ def view_patient_screen():
         return render_template("view_patient_screen.html", patient=patient)
     else:
         flash("There is no patient in the database","danger")
-        return render_template("index.html")
-
+        return redirect(url_for("home"))
 
 
 @app.route('/search_patient')
 def search_patient():
     return render_template("search_patient.html",page_value="Patient Search",button_value="Search")
+
 
 @app.route('/display_patient', methods=['POST'])
 def display_patient():
@@ -300,7 +299,11 @@ def display_patient():
         flash("There is no patient with the given ID "+str(patient_id),"danger")
         return render_template("index.html")
 
-##################__MEDICINE__#########################
+##################_Routes for patient add, delete, and edit ends_#############
+
+##################__Routes for Pharmacy begins__#########################
+
+################_Pharmacist search patient_#############
 
 @app.route('/pharmacist_search_patient1')
 def pharmacist_search_patient1():
@@ -310,6 +313,7 @@ def pharmacist_search_patient1():
 @app.route('/pharmacist_search_patient_bill3')
 def pharmacist_search_patient_bill3():
     return render_template("diagnostic_search_patient1.html",page_value="Pharmacists Patient Bill Search",button_value="Search")
+
 
 @app.route('/pharmacist_search_patient2', methods=['POST'])
 def pharmacist_search_patient2():
@@ -323,6 +327,7 @@ def pharmacist_search_patient2():
         flash("There is no patient with the given ID "+str(patient_id),"danger")
         return redirect(url_for("home"))
 
+###################_Issue medicine_######################
 
 @app.route('/get_med_count/<int:patient_id>', methods=['POST'])
 def get_med_count(patient_id:int):
@@ -364,15 +369,14 @@ def get_med_count(patient_id:int):
         flash("There is no patient with the given ID "+str(patient_id),"danger")
         return redirect(url_for("home"))
 
-
-
-
+######################_view medicine list_###############################
 
 @app.route("/medicine_list")
 def medicine_list():
     medicines = Medicine.query.all()
     return render_template("medicine_list.html", medicines=medicines)
 
+#####################_Medicine bill search_#####################
 
 @app.route('/pharmacist_search_patient_bill4', methods=['POST'])
 def pharmacist_search_patient_bill4():
@@ -388,17 +392,13 @@ def pharmacist_search_patient_bill4():
 
 
 
-##################### DIAGNOSTIC #########################
+#####################_Routes for Diagnostics begins_#########################
 
+#######_Diagnostics search patient_######
 
 @app.route('/diagnostic_search_patient1')
 def diagnostic_search_patient1():
     return render_template("diagnostic_search_patient1.html",page_value="Diagnostics Search Patient",button_value="Search")
-
-
-@app.route('/diagnostic_bill_search_patient3')
-def diagnostic_bill_search_patient3():
-    return render_template("diagnostic_search_patient1.html",page_value="Diagnostics Patient Bill Search",button_value="Search")
 
 
 @app.route('/diagnostic_search_patient2', methods=['POST','GET'])
@@ -412,9 +412,10 @@ def diagnostic_search_patient2():
         return render_template("diagnostic_search_patient2.html", patient_id=patient_id, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index.html")
+        return redirect(url_for("home"))
 
 
+############_issue diagnostics_##################
 
 @app.route('/get_diagnostic_count/<int:patient_id>', methods=['POST'])
 def get_diagnostic_count(patient_id:int):
@@ -448,13 +449,19 @@ def get_diagnostic_count(patient_id:int):
     return redirect(url_for("home"))
 
 
-
+#################_view diagnostic list_###############
 
 @app.route("/diagnostic_list")
 def diagnostic_list():
     diagnostics = Diagnostic.query.all()
     return render_template("diagnostic_list.html", diagnostics=diagnostics)
 
+
+############_Diagnostics Patient Bill Search_###########
+
+@app.route('/diagnostic_bill_search_patient3')
+def diagnostic_bill_search_patient3():
+    return render_template("diagnostic_search_patient1.html",page_value="Diagnostics Patient Bill Search",button_value="Search")
 
 
 @app.route('/diagnostic_bill_search_patient4', methods=['POST'])
@@ -594,7 +601,7 @@ def delete_diagnostics2():
     db.session.delete(diagnostic)
     db.session.commit()
     flash("Diagnostic Test with ID "+str(diagnostic_id)+" is deleted", "success")
-    return render_template("index.html")
+    return redirect(url_for("home"))
 
 
 
@@ -608,7 +615,7 @@ def add_diagnostics2():
     diagnostic = Diagnostic.query.filter_by(name_of_the_test=name_of_the_test).first()
     if diagnostic:
         flash("There is already a diagnostic by that name", "success")
-        return render_template("index.html")
+        return redirect(url_for("home"))
     else:
         diagnostic_id = int(request.form['diagnostic_id'])
         amount = int(request.form['amount'])
@@ -618,7 +625,7 @@ def add_diagnostics2():
         db.session.add(new_diagnostic)
         db.session.commit()
         flash("Diagnostic with diagnostic id: "+str(diagnostic_id)+" is added successfully")
-        return render_template("index.html")
+        return redirect(url_for("home"))
 
 
 
@@ -666,7 +673,7 @@ def delete_med2():
     db.session.delete(medicine)
     db.session.commit()
     flash("Medicine with ID "+str(medicine_id)+" is deleted", "success")
-    return render_template("index.html")
+    return redirect(url_for("home"))
 
 
 
@@ -691,8 +698,35 @@ def add_med2():
         db.session.add(new_medicine)
         db.session.commit()
         flash("Medicine with medicine id: "+str(medicine_id)+" is added successfully")
-        return render_template("index.html")
+        return redirect(url_for("home"))
     
+###########_Delete issued medicine_############
+
+@app.route("/delete_issue_medicine/<int:pm_id>",methods=['POST'])
+def delete_issue_medicine(pm_id:int):
+    patient_medicine=Patient_Medicine.query.filter_by(pm_id=pm_id).first()
+    if patient_medicine:
+        db.session.delete(patient_medicine)
+        db.session.commit()
+        flash("Medicine is deleted successfully")
+        return redirect(url_for("home"))
+    else:
+        flash("Medicine is not deleted ")
+        return redirect(url_for("home"))
+
+#############_Delete issued diagnostics_#########
+
+@app.route("/delete_issue_diagnostics/<int:pd_id>",methods=['POST'])
+def delete_issue_diagnostics(pd_id:int):
+    patient_diagnostics=PatientDiagnostic.query.filter_by(pd_id=pd_id).first()
+    if patient_diagnostics:
+        db.session.delete(patient_diagnostics)
+        db.session.commit()
+        flash("Diagnostic  deleted successfully")
+        return redirect(url_for("home"))
+    else:
+        flash("Diagnostic not deleted ")
+        return redirect(url_for("home"))
 
 
 # database models
