@@ -63,7 +63,7 @@
       <!-- Patient ID: <input type="text" name="patient_id" style="width:100px" value={{patient.patient_id}}> -->
       <table style="width:100%;text-align: center;">
         <tr>
-          <th>Add Diagnostics</th> <th><select id="name_of_the_test" name="name_of_the_test" style="width:100px">
+          <th>Add Diagnostics</th> <th><select id="name_of_the_test" name="name_of_the_test" style="width:100px" required>
             <option value="">None</option>
             {% for test in diagnostic_list %}
             <option value="{{test.name_of_the_test}}">{{test.name_of_the_test}}</option>

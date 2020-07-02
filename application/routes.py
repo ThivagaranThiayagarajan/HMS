@@ -495,51 +495,51 @@ def patient_bill():
     patient_id=int(request.form['patient_id'])
     date_of_discharge=request.form['date_of_discharge']
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
-    patient.date_of_discharge = date_of_discharge
-    db.session.commit()
-    
-    medicine_issued_for_patient = Patient_Medicine.query.all()
-    medicine_list = Medicine.query.all()
-
-    total_medicine_bill=0
-    for med in medicine_list:
-        for mp in medicine_issued_for_patient:
-            if med.medicine_id == mp.medicine_id and mp.patient_id==patient_id:
-                total_medicine_bill+=(mp.quantity_issued*med.rate)
-                    
-    
-    diagnostic_for_patient = PatientDiagnostic.query.all()
-    diagnostic_list = Diagnostic.query.all()
-
-    match = re.search('\d{4}-\d{2}-\d{2}', patient.date)
-    date = datetime.strptime(match.group(), '%Y-%m-%d').date()
-    print(date)
-
-    match = re.search('\d{4}-\d{2}-\d{2}',date_of_discharge)
-    date_of_discharge = datetime.strptime(match.group(), '%Y-%m-%d').date()
-    print(date_of_discharge)
-
-    diff = (date_of_discharge-date).days
-    print(diff)
-
-    total_diagnostic_bill=0
-    for dia in diagnostic_list:
-        for dp in diagnostic_for_patient:
-            if dia.diagnostic_id == dp.diagnostic_id and dp.patient_id==patient_id:
-                total_diagnostic_bill+=dia.amount
-
-    type_of_bed = patient.type_of_bed
-    if type_of_bed=='General Ward':
-        cost = diff*2000
-    elif type_of_bed=='Semi Sharing':
-        cost = diff*4000
-    else:
-        cost=diff*8000
-    
-    
-    grand_total=cost+total_medicine_bill+total_diagnostic_bill
-    
     if patient:
+        patient.date_of_discharge = date_of_discharge
+        db.session.commit()
+    
+        medicine_issued_for_patient = Patient_Medicine.query.all()
+        medicine_list = Medicine.query.all()
+
+        total_medicine_bill=0
+        for med in medicine_list:
+            for mp in medicine_issued_for_patient:
+                if med.medicine_id == mp.medicine_id and mp.patient_id==patient_id:
+                    total_medicine_bill+=(mp.quantity_issued*med.rate)
+                        
+
+        diagnostic_for_patient = PatientDiagnostic.query.all()
+        diagnostic_list = Diagnostic.query.all()
+
+        match = re.search('\d{4}-\d{2}-\d{2}', patient.date)
+        date = datetime.strptime(match.group(), '%Y-%m-%d').date()
+        print(date)
+
+        match = re.search('\d{4}-\d{2}-\d{2}',date_of_discharge)
+        date_of_discharge = datetime.strptime(match.group(), '%Y-%m-%d').date()
+        print(date_of_discharge)
+
+        diff = (date_of_discharge-date).days
+        print(diff)
+
+        total_diagnostic_bill=0
+        for dia in diagnostic_list:
+            for dp in diagnostic_for_patient:
+                if dia.diagnostic_id == dp.diagnostic_id and dp.patient_id==patient_id:
+                    total_diagnostic_bill+=dia.amount
+
+        type_of_bed = patient.type_of_bed
+        if type_of_bed=='General Ward':
+            cost = diff*2000
+        elif type_of_bed=='Semi Sharing':
+            cost = diff*4000
+        else:
+            cost=diff*8000
+
+
+        grand_total=cost+total_medicine_bill+total_diagnostic_bill
+
         return render_template("patient_bill.html", cost=cost, patient_id=patient_id, total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
