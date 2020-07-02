@@ -1,6 +1,7 @@
 from application import app
 from flask import render_template,request, json, Response, redirect, flash, url_for, session, jsonify, flash
 from datetime import datetime
+import re
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float
 from flask_marshmallow import Marshmallow
@@ -48,11 +49,12 @@ def db_drop():
 
 @app.cli.command('db_seed')
 def db_seed():
-    patient1 = Patient(patient_id=110,
+    patient1 = Patient(patient_id=100000001,
                     patient_name='Kirithiga',
                      patient_age=32,
-                     date=str(date.today()),
-                     type_of_bed="",
+                     date=str(date(2020,4,11)),
+                     date_of_discharge="",
+                     type_of_bed="Single Room",
                      address="chrompet",
                      state="tamilnadu",
                      city="chennai")
@@ -155,9 +157,11 @@ def logincheck():
 
     test = User.query.filter_by(email=email, password=password).first()
     if test:
+        session['username']=email
         access_token = create_access_token(identity=email)
         # jsonify(message="Login succeeded!", access_token=access_token)
-        return render_template("index.html")
+        #return render_template("index.html")
+        return redirect(url_for('home'))
     else:
         return jsonify(message="Bad email or password"), 401
 
@@ -184,12 +188,13 @@ def add_patient():
     patient_name = request.form['patient_name']
     patient_age = int(request.form['patient_age'])
     date = str(request.form['date'])
+    date_of_discharge=""
     type_of_bed = str(request.form['type_of_bed'])
     address =request.form['address']
     state = str(request.form['state'])
     city =str(request.form['city'])
 
-    new_patient = Patient(patient_id=patient_id, patient_name=patient_name, patient_age=patient_age, date=date, type_of_bed=type_of_bed, address=address, state=state, city=city)
+    new_patient = Patient(patient_id=patient_id, patient_name=patient_name, patient_age=patient_age, date=date, date_of_discharge=date_of_discharge, type_of_bed=type_of_bed, address=address, state=state, city=city)
 
     db.session.add(new_patient)
     db.session.commit()
@@ -488,7 +493,10 @@ def bill_search_patient():
 @app.route('/patient_bill', methods=['POST'])
 def patient_bill():
     patient_id=int(request.form['patient_id'])
+    date_of_discharge=request.form['date_of_discharge']
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
+    patient.date_of_discharge = date_of_discharge
+    db.session.commit()
     
     medicine_issued_for_patient = Patient_Medicine.query.all()
     medicine_list = Medicine.query.all()
@@ -503,16 +511,36 @@ def patient_bill():
     diagnostic_for_patient = PatientDiagnostic.query.all()
     diagnostic_list = Diagnostic.query.all()
 
+    match = re.search('\d{4}-\d{2}-\d{2}', patient.date)
+    date = datetime.strptime(match.group(), '%Y-%m-%d').date()
+    print(date)
+
+    match = re.search('\d{4}-\d{2}-\d{2}',date_of_discharge)
+    date_of_discharge = datetime.strptime(match.group(), '%Y-%m-%d').date()
+    print(date_of_discharge)
+
+    diff = (date_of_discharge-date).days
+    print(diff)
+
     total_diagnostic_bill=0
     for dia in diagnostic_list:
         for dp in diagnostic_for_patient:
             if dia.diagnostic_id == dp.diagnostic_id and dp.patient_id==patient_id:
                 total_diagnostic_bill+=dia.amount
+
+    type_of_bed = patient.type_of_bed
+    if type_of_bed=='General Ward':
+        cost = diff*2000
+    elif type_of_bed=='Semi Sharing':
+        cost = diff*4000
+    else:
+        cost=diff*8000
     
-    grand_total=total_medicine_bill+total_diagnostic_bill
+    
+    grand_total=cost+total_medicine_bill+total_diagnostic_bill
     
     if patient:
-        return render_template("patient_bill.html", patient_id=patient_id, total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
+        return render_template("patient_bill.html", cost=cost, patient_id=patient_id, total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
         return redirect(url_for("home"))
@@ -521,7 +549,7 @@ def patient_bill():
 def print_bill(patient_id:int):
     # patient_id=int(request.form['patient_id'])
     patient =  Patient.query.filter_by(patient_id=patient_id).first()
-    
+    date_of_discharge=patient.date_of_discharge
     medicine_issued_for_patient = Patient_Medicine.query.all()
     medicine_list = Medicine.query.all()
 
@@ -535,16 +563,37 @@ def print_bill(patient_id:int):
     diagnostic_for_patient = PatientDiagnostic.query.all()
     diagnostic_list = Diagnostic.query.all()
 
+    match = re.search('\d{4}-\d{2}-\d{2}', patient.date)
+    date = datetime.strptime(match.group(), '%Y-%m-%d').date()
+    print(date)
+
+    match = re.search('\d{4}-\d{2}-\d{2}',date_of_discharge)
+    date_of_discharge = datetime.strptime(match.group(), '%Y-%m-%d').date()
+    print(date_of_discharge)
+
+    diff = (date_of_discharge-date).days
+    print(diff)
+
+
     total_diagnostic_bill=0
     for dia in diagnostic_list:
         for dp in diagnostic_for_patient:
             if dia.diagnostic_id == dp.diagnostic_id and dp.patient_id==patient_id:
                 total_diagnostic_bill+=dia.amount
     
-    grand_total=total_medicine_bill+total_diagnostic_bill
+    type_of_bed = patient.type_of_bed
+    if type_of_bed=='General Ward':
+        cost = diff*2000
+    elif type_of_bed=='Semi Sharing':
+        cost = diff*4000
+    else:
+        cost=diff*8000
+    
+    
+    grand_total=cost+total_medicine_bill+total_diagnostic_bill
     
     if patient:
-        return render_template("print_bill.html", patient_id=patient_id, total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
+        return render_template("print_bill.html",cost=cost, patient_id=patient_id, total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
         return redirect(url_for("home"))
@@ -743,6 +792,7 @@ class Patient(db.Model):
     patient_name = Column(String)
     patient_age = Column(Integer)
     date = Column(String)
+    date_of_discharge = Column(String)
     type_of_bed = Column(String)
     address = Column(String)
     state = Column(String)
@@ -782,7 +832,7 @@ class UserSchema(ma.Schema):
 
 class PatientSchema(ma.Schema):
     class Meta:
-        fields = ('patient_id', 'patient_name', 'patient_age', 'date', 'type_of_bed', 'address', 'state', 'city')
+        fields = ('patient_id', 'patient_name', 'patient_age', 'date', 'date_of_discharge', 'type_of_bed', 'address', 'state', 'city')
 
 class MedicineSchema(ma.Schema):
     class Meta:

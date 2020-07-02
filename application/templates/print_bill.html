@@ -18,19 +18,22 @@
       <th>Age</th>
       <th>Address</th>
       <th>DOJ</th>
+      <th>DOD</th>
       <th>Type of Room</th>
     </tr>
+
     <tr style="text-align: center;">
       <td>{{patient.patient_id}}</td>
       <td>{{patient.patient_name}}</td>
       <td>{{patient.patient_age}}</td>
       <td>{{patient.address}}</td>
       <td>{{patient.date}}</td>
+      <td>{{patient.date_of_discharge}}</td>
       <td>{{patient.type_of_bed}}</td>
     </tr>
-    <tr>
+    <tr style="text-align: center;">
       <td colspan=6>Rent for Room :</td>
-      <td></td>
+      <td>Rs {{cost}}</td>
     </tr>
   </table>
 
