@@ -472,7 +472,7 @@ def diagnostic_bill_search_patient4():
         return render_template("diagnostic_bill_search_patient4.html", patient_id=patient_id, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index.html")
+        return redirect(url_for("home"))
 
 
         
@@ -515,7 +515,7 @@ def patient_bill():
         return render_template("patient_bill.html", patient_id=patient_id, total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index.html")
+        return redirect(url_for("home"))
 
 @app.route('/print_bill/<int:patient_id>',methods=['POST'])
 def print_bill(patient_id:int):
@@ -547,7 +547,7 @@ def print_bill(patient_id:int):
         return render_template("print_bill.html", patient_id=patient_id, total_medicine_bill=total_medicine_bill, total_diagnostic_bill=total_diagnostic_bill, grand_total=grand_total, medicine_issued_for_patient=medicine_issued_for_patient, medicine_list=medicine_list, patient=patient, diagnostic_list=diagnostic_list, diagnostic_for_patient=diagnostic_for_patient)
     else:
         flash("There is no patient with the given ID "+str(patient_id),"danger")
-        return render_template("index.html")
+        return redirect(url_for("home"))
 
 
 
